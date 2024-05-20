@@ -41,7 +41,6 @@ app.post("/users", async (req, res) => {
     const user = await User.create(person);
     res.status(200).json(user);
   } catch (err) {
-    console.log(err.message);
     res.status(500).json({ message: err.message });
   }
 });
@@ -54,4 +53,19 @@ app.get("/users", async (req, res) => {
     console.log(err.message);
     res.status(500).json({ message: err.message });
   }
+});
+
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const user = await User.findOne({ username });
+    if (user) {
+      return res.status(200).json(user);
+    }
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+
+  
 });

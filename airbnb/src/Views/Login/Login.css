@@ -27,6 +27,8 @@ body {
   width: 25%;
   height: 55%;
   border-radius: 5%;
+  min-width: 200px;
+  max-width: 500px;
 }
 
 .login-text {

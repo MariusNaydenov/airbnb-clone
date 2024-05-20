@@ -4,10 +4,27 @@ import { LuPalmtree } from "react-icons/lu";
 import { Box } from "@mui/material";
 import StyledButton from "../../Components/Button/Button";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [emailValue, setEmailValue] = useState("");
   const [password, setPasswordValue] = useState("");
+
+  const handleClick = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: emailValue, password: password }),
+      });
+      if (response.ok) {
+        console.log("user found");
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
   return (
     <>
@@ -64,7 +81,12 @@ const Login = () => {
               value={password}
               setValue={setPasswordValue}
             />
-            <StyledButton color="#f43f5e" text="Continue" width="85%" />
+            <StyledButton
+              color="#f43f5e"
+              text="Continue"
+              width="85%"
+              func={handleClick}
+            />
             {/* <span className="login-password-text">Forgot your password?</span>
             <span className="login-password-text">Create an account</span> */}
             <Box
@@ -74,7 +96,7 @@ const Login = () => {
                 width: "100%",
                 justifyContent: "center",
                 alignItems: "center",
-                marginTop:'5%'
+                marginTop: "5%",
               }}
             >
               <span
@@ -86,7 +108,10 @@ const Login = () => {
               >
                 First time using vacationhub?
               </span>
-              <span className="create-account-text" style={{ color: "#000000", fontSize: "0.9rem" }}>
+              <span
+                className="create-account-text"
+                style={{ color: "#000000", fontSize: "0.9rem" }}
+              >
                 Create an account
               </span>
             </Box>
