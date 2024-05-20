@@ -1,5 +1,4 @@
 body {
-  /* background-color: #f3f4f6; */
   background-color: #f3f4f6;
   height: 100vh;
 }
@@ -27,7 +26,7 @@ body {
   width: 25%;
   height: 55%;
   border-radius: 5%;
-  min-width: 200px;
+  min-width: 400px;
   max-width: 500px;
 }
 

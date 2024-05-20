@@ -1,25 +1,28 @@
-import "./Login.css";
+import "./SignUp.css";
 import Input from "../../Components/Input/Input";
-import { LuPalmtree } from "react-icons/lu";
 import { Box } from "@mui/material";
 import StyledButton from "../../Components/Button/Button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const SignUp = () => {
   const navigate = useNavigate();
   const [emailValue, setEmailValue] = useState("");
   const [password, setPasswordValue] = useState("");
+  const [username, setUsernameValue] = useState("");
 
-  const handleClick = async () => {
+  const createUser = async () => {
+    const user = { username: username, email: emailValue, password: password };
     try {
-      const response = await fetch("http://localhost:3000/login", {
+      const response = await fetch("http://localhost:3000/users", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: emailValue, password: password }),
+        body: JSON.stringify(user),
       });
       if (response.ok) {
-        console.log("user found");
+        setEmailValue("");
+        setPasswordValue("");
+        setUsernameValue("");
       }
     } catch (err) {
       console.log(err.message);
@@ -29,21 +32,8 @@ const Login = () => {
   return (
     <>
       <Box className="login-main">
-        <Box className="login-title-box">
-          <LuPalmtree style={{ color: "#f43f5e" }} size={30} />
-          <span
-            style={{
-              color: "#f43f5e",
-              fontFamily: "Nunito, sans-serif",
-              fontSize: "2.7rem",
-            }}
-          >
-            vacationhub
-          </span>
-        </Box>
-
         <Box sx={{ boxShadow: 4 }} className="login-form">
-          <span className="login-text">Login</span>
+          <span className="login-text">Sign up</span>
           <hr style={{ width: "100%" }} />
           <Box
             sx={{
@@ -56,7 +46,7 @@ const Login = () => {
             }}
           >
             <span className="login-welcome">Welcome</span>
-            <span className="login-log"> Login to your account!</span>
+            <span className="login-log"> Create an account!</span>
           </Box>
           <Box
             sx={{
@@ -68,6 +58,14 @@ const Login = () => {
               gap: "6%",
             }}
           >
+            <Input
+              type="text"
+              label="Username"
+              width="85%"
+              className="input-text"
+              value={username}
+              setValue={setUsernameValue}
+            />
             <Input
               type="email"
               label="Email"
@@ -87,9 +85,9 @@ const Login = () => {
               color="#f43f5e"
               text="Continue"
               width="85%"
-              func={handleClick}
+              func={createUser}
             />
-           
+
             <Box
               sx={{
                 display: "flex",
@@ -107,14 +105,14 @@ const Login = () => {
                   marginRight: "5px",
                 }}
               >
-                First time using vacationhub?
+                Already have an account?
               </span>
               <span
                 className="create-account-text"
                 style={{ color: "#000000", fontSize: "0.9rem" }}
-                onClick={() => navigate('/sign-up')}
+                onClick={() => navigate("/")}
               >
-                Create an account
+                Log in
               </span>
             </Box>
           </Box>
@@ -124,4 +122,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;

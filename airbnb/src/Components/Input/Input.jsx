@@ -4,9 +4,10 @@ const Input = (props) => {
   return (
     <>
       <TextField
+        type={props.type}
         value={props.value}
         onChange={(e) => props.setValue(e.target.value)}
-        id="outlined-basic"
+        // id="outlined-basic"
         label={props.label}
         variant="outlined"
         InputLabelProps={{
