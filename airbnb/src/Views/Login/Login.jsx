@@ -2,24 +2,35 @@ import "./Login.css";
 import Input from "../../Components/Input/Input";
 import { LuPalmtree } from "react-icons/lu";
 import { Box } from "@mui/material";
-import StyledButton from "../../Components/Button/Button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { useContext } from "react";
+import AppContext from "../../Context/AppContext";
 
 const Login = () => {
   const navigate = useNavigate();
   const [emailValue, setEmailValue] = useState("");
   const [password, setPasswordValue] = useState("");
+  const { isAuthenticated, setAuthentication } = useContext(AppContext);
 
-  const handleClick = async () => {
+  const LogUser = async (e) => {
+    e.preventDefault();
     try {
       const response = await fetch("http://localhost:3000/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: emailValue, password: password }),
+        body: JSON.stringify({ email: emailValue, password: password }),
       });
+      const data = await response.json();
+
       if (response.ok) {
-        console.log("user found");
+        setAuthentication(true);
+        navigate("/home");
+      } else {
+        toast.error(data.message, {
+          position: "top-center",
+        });
       }
     } catch (err) {
       console.log(err.message);
@@ -68,28 +79,49 @@ const Login = () => {
               gap: "6%",
             }}
           >
-            <Input
-              type="email"
-              label="Email"
-              width="85%"
-              value={emailValue}
-              setValue={setEmailValue}
-              className="input-text"
-            />
-            <Input
-              type="password"
-              label="Password"
-              width="85%"
-              value={password}
-              setValue={setPasswordValue}
-            />
-            <StyledButton
-              color="#f43f5e"
-              text="Continue"
-              width="85%"
-              func={handleClick}
-            />
-           
+            <form
+              onSubmit={(e) => LogUser(e)}
+              action=""
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "100%",
+                gap: "15px",
+              }}
+            >
+              <Input
+                type="email"
+                label="Email"
+                width="85%"
+                value={emailValue}
+                setValue={setEmailValue}
+                className="input-text"
+              />
+              <Input
+                type="password"
+                label="Password"
+                width="85%"
+                value={password}
+                setValue={setPasswordValue}
+              />
+              <input
+                type="submit"
+                style={{
+                  backgroundColor: "#f43f5e",
+                  width: "85%",
+                  height: "45px",
+                  border: "none",
+                  borderRadius: "10px",
+                  color: "white",
+                  fontFamily: "Nunito,sans-serif",
+                  fontSize: "16px",
+                  cursor: "pointer",
+                }}
+                value="Continue"
+              />
+            </form>
             <Box
               sx={{
                 display: "flex",
@@ -112,7 +144,7 @@ const Login = () => {
               <span
                 className="create-account-text"
                 style={{ color: "#000000", fontSize: "0.9rem" }}
-                onClick={() => navigate('/sign-up')}
+                onClick={() => navigate("/sign-up")}
               >
                 Create an account
               </span>

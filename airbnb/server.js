@@ -10,13 +10,7 @@ const port = 3000;
 const app = express();
 
 app.use(express.json());
-app.use(
-  cors({
-    origin: "*", // Change this to the specific origin of your frontend application in production
-    methods: ["GET", "POST", "PUT", "DELETE"], // Add other methods as needed
-    allowedHeaders: ["Content-Type", "Authorization"], // Add other headers as needed
-  })
-);
+app.use(cors());
 
 mongoose
   .connect(MY_URI)
@@ -38,8 +32,13 @@ app.post("/users", async (req, res) => {
   const person = req.body;
 
   try {
-    const user = await User.create(person);
-    res.status(200).json(user);
+    const user = await User.findOne({ email: person.email });
+    if (!user) {
+      const newUser = await User.create(person);
+      res.status(200).json(newUser);
+    } else {
+      res.status(404).json({ message: "Already has account with this email" });
+    }
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -56,16 +55,26 @@ app.get("/users", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ username });
-    if (user) {
-      return res.status(200).json(user);
+    const user = await User.findOne({ email });
+    if (!user) {
+      res
+        .status(404)
+        .json({ message: `Account with this email ${email} does not exist!` });
+      return;
+    }
+
+    if (user && user.password === password) {
+      res.status(200).json(user);
+      return;
+    }
+
+    if (user && user.password !== password) {
+      res.status(404).json({ message: "Wrong password!" });
     }
   } catch (err) {
     return res.status(500).json({ message: err.message });
   }
-
-  
 });
