@@ -7,7 +7,7 @@ import toast, { Toaster } from "react-hot-toast";
 import Home from "./Views/Home/Home.jsx";
 
 function App() {
-  const [isAuthenticated, setAuthentication] = useState(false);
+  const [isAuthenticated, setAuthentication] = useState(true);
 
   return (
     <AppContext.Provider value={{ isAuthenticated, setAuthentication }}>
