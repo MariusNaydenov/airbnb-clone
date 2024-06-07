@@ -49,7 +49,7 @@ const Login = () => {
               fontSize: "2.7rem",
             }}
           >
-            vacationhub
+            vacation estates
           </span>
         </Box>
 

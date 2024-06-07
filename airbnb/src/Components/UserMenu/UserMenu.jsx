@@ -4,11 +4,18 @@ import { AiOutlineMenu } from "react-icons/ai";
 import MenuOption from "../MenuOption/MenuOption";
 import HomeModal from "../HomeModal/HomeModal";
 
-const UserMenu = ({ openModal, handleClose, open }) => {
-  const [isOpen, setOpen] = useState(false);
+const UserMenu = ({ openModal }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [step, setStep] = useState("categories");
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    setStep("categories");
+    setOpen(false);
+  };
 
   const toggleUserMenu = useCallback(() => {
-    setOpen((prev) => !prev);
+    setIsOpen((prev) => !prev);
   }, []);
 
   return (
@@ -30,7 +37,7 @@ const UserMenu = ({ openModal, handleClose, open }) => {
             transition
             cursor-pointer
             "
-        onClick={openModal}
+        onClick={handleOpen}
       >
         Airbnb your home
       </div>
@@ -86,7 +93,12 @@ const UserMenu = ({ openModal, handleClose, open }) => {
           </div>
         </div>
       )}
-      <HomeModal open={open} handleClose={handleClose} />
+      <HomeModal
+        open={open}
+        handleClose={handleClose}
+        step={step}
+        setStep={setStep}
+      />
     </div>
   );
 };

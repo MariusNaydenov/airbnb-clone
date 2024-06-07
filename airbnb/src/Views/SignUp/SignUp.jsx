@@ -1,7 +1,6 @@
 import "./SignUp.css";
 import Input from "../../Components/Input/Input";
 import { Box } from "@mui/material";
-import StyledButton from "../../Components/Button/Button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";

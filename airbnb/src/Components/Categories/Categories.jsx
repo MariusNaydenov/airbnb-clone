@@ -33,6 +33,8 @@ const categories = [
   { name: "Lux", icon: IoDiamond },
 ];
 
+
+
 const Categories = () => {
   return (
     <div

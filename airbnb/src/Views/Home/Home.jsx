@@ -9,9 +9,9 @@ import Categories from "../../Components/Categories/Categories";
 
 const Home = () => {
   const { isAuthenticated } = useContext(AppContext);
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  // const [open, setOpen] = useState(false);
+  // const handleOpen = () => setOpen(true);
+  // const handleClose = () => setOpen(false);
 
   return (
     <>
@@ -52,15 +52,11 @@ const Home = () => {
                   fontWeight: "bold",
                 }}
               >
-                vacationhub
+                vacation estates
               </span>
             </Box>
             <Search />
-            <UserMenu
-              openModal={handleOpen}
-              handleClose={handleClose}
-              open={open}
-            />
+            <UserMenu />
           </Box>
           <Categories />
         </Box>

@@ -1,5 +1,8 @@
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
+import { useState } from "react";
+import ModalCategories from "../ModalCategories/ModalCategories";
+import ModalPlaceLocated from "../ModalPlaceLocated/ModalPlaceLocated";
 
 const style = {
   position: "absolute",
@@ -15,12 +18,14 @@ const style = {
   outline: "none",
 };
 
-const HomeModal = ({ open, handleClose }) => {
+const HomeModal = ({ open, handleClose, step, setStep }) => {
+  const [category, setCategory] = useState("Beach");
+
   return (
     <div>
       <Modal
         open={open}
-        onClose={handleClose}
+        // onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -51,7 +56,14 @@ const HomeModal = ({ open, handleClose }) => {
             </span>
             <hr />
           </Box>
-          
+          {step === "categories" && (
+            <ModalCategories
+              selectedCategory={category}
+              setCategory={setCategory}
+              setStep={setStep}
+            />
+          )}
+          {step === "place" && <ModalPlaceLocated />}
         </Box>
       </Modal>
     </div>
