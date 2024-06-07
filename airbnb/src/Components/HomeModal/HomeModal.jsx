@@ -16,6 +16,7 @@ const style = {
   overflow: "auto",
   borderRadius: "10px",
   outline: "none",
+ 
 };
 
 const HomeModal = ({ open, handleClose, step, setStep }) => {

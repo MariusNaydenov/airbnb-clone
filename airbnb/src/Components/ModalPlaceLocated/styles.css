@@ -2,3 +2,23 @@
   height: 300px;
   border-radius: 10px;
 }
+
+.react-select-container .react-select__control {
+  @apply focus:border-black;
+  outline: none !important;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.react-select-container .react-select__control--is-focused {
+  border-color: black !important;
+  box-shadow: 0 0 0 1px black !important;
+}
+
+.react-select-container .react-select__control:hover {
+  @apply border-black;
+}
+
+.react-select__menu {
+  z-index: 1000;
+}
