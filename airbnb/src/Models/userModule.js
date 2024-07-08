@@ -14,9 +14,12 @@ const userSchema = new mongoose.Schema(
       type: "String",
       required: true,
     },
-    imageUrl: {
-      type: "String",
-    },
+    properties: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Property",
+      },
+    ],
   },
 
   { timestamps: true }

@@ -78,3 +78,18 @@ app.post("/login", async (req, res) => {
     return res.status(500).json({ message: err.message });
   }
 });
+
+app.post("/user", async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (user) {
+      res.status(200).json(user);
+      return;
+    }
+  } catch (err) {
+    return res.status(500).json({ message: err.message });
+  }
+});

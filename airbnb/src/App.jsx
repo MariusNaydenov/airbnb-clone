@@ -8,9 +8,11 @@ import Home from "./Views/Home/Home.jsx";
 
 function App() {
   const [isAuthenticated, setAuthentication] = useState(true);
+  const [user, setUser] = useState(null);
+
 
   return (
-    <AppContext.Provider value={{ isAuthenticated, setAuthentication }}>
+    <AppContext.Provider value={{ isAuthenticated, setAuthentication,user,setUser }}>
       <Toaster />
       <BrowserRouter>
         <Routes>

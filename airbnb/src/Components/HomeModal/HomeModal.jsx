@@ -33,6 +33,8 @@ const HomeModal = ({
   setRooms,
   bathrooms,
   setBathrooms,
+  imageUrl,
+  setImageUrl
 }) => {
   const [category, setCategory] = useState("Beach");
 
@@ -97,7 +99,7 @@ const HomeModal = ({
               setBathrooms={setBathrooms}
             />
           )}
-          {step === "image" && <ImageModal />}
+          {step === "image" && <ImageModal step={step} setStep={setStep} />}
         </Box>
       </Modal>
     </div>

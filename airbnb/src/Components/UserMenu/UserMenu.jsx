@@ -12,6 +12,7 @@ const UserMenu = ({ openModal }) => {
   const [guests, setGuests] = useState(1);
   const [rooms, setRooms] = useState(1);
   const [bathrooms, setBathrooms] = useState(1);
+  const [imageUrl, setImageUrl] = useState("");
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -111,6 +112,8 @@ const UserMenu = ({ openModal }) => {
         setRooms={setRooms}
         setBathrooms={setBathrooms}
         bathrooms={bathrooms}
+        imageUrl={imageUrl}
+        setImageUrl={setImageUrl}
       />
     </div>
   );

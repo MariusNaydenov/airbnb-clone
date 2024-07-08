@@ -1,6 +1,6 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AppContext from "../../Context/AppContext";
-import { Navigate } from "react-router-dom";
+import { json, Navigate } from "react-router-dom";
 import { Box } from "@mui/material";
 import { LuPalmtree } from "react-icons/lu";
 import Search from "../../Components/Search/Search";
@@ -8,10 +8,8 @@ import UserMenu from "../../Components/UserMenu/UserMenu";
 import Categories from "../../Components/Categories/Categories";
 
 const Home = () => {
-  const { isAuthenticated } = useContext(AppContext);
-  // const [open, setOpen] = useState(false);
-  // const handleOpen = () => setOpen(true);
-  // const handleClose = () => setOpen(false);
+  const { isAuthenticated, } = useContext(AppContext);
+
 
   return (
     <>

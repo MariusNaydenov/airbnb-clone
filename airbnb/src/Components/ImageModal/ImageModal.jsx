@@ -3,16 +3,17 @@ import { TbPhotoPlus } from "react-icons/tb";
 import Heading from "../Heading/Heading";
 import StyledButton from "../Button/Button";
 import { Box } from "@mui/material";
+const MY_CLOUDINARY_NAME = process.env.MY_CLOUDINARY_NAME;
+const MY_UPLOAD_PRESET_NAME = process.env.MY_UPLOAD_PRESET_NAME
 
-const ImageModal = () => {
+const ImageModal = ({ step, setStep, imageUrl, setImageUrl }) => {
   const widgetRef = useRef(null);
-  const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
     widgetRef.current = window.cloudinary.createUploadWidget(
       {
-        cloudName: "drw8o128w",
-        uploadPreset: "jye0ds5k",
+        cloudName: MY_CLOUDINARY_NAME,
+        uploadPreset: MY_UPLOAD_PRESET_NAME,
       },
       (error, result) => {
         if (!error && result && result.event === "success") {
@@ -54,12 +55,16 @@ const ImageModal = () => {
         <TbPhotoPlus size={50} />
         <div className="font-semibold text-lg">Click to upload</div>
         {imageUrl && (
-        <div className="absolute inset-0 w-full h-full">
-          <img src={imageUrl} alt="Uploaded" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-        </div>
-      )}
+          <div className="absolute inset-0 w-full h-full">
+            <img
+              src={imageUrl}
+              alt="Uploaded"
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          </div>
+        )}
       </div>
-      
+
       <Box sx={{ display: "flex", gap: "10px", marginTop: "10px" }}>
         <StyledButton
           width={"50%"}
@@ -71,7 +76,7 @@ const ImageModal = () => {
           width={"50%"}
           color={"rgb(244, 63, 94)"}
           text={"Next"}
-          func={() => setStep("image")}
+          // func={() => setStep("image")}
         />
       </Box>
     </div>
@@ -79,9 +84,3 @@ const ImageModal = () => {
 };
 
 export default ImageModal;
-
-// const { openUploadWidget } = useCloudinaryUploadWidget({
-//   cloudName: "drw8o128w", // Replace with your Cloudinary cloud name
-//   uploadPreset: "jye0ds5k", // Replace with your upload preset
-// onClick={() => widgetRef.current.open()}
-// });
