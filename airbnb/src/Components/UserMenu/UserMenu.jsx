@@ -8,6 +8,11 @@ const UserMenu = ({ openModal }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState("categories");
+  const [country, setCountry] = useState(null);
+  const [guests, setGuests] = useState(1);
+  const [rooms, setRooms] = useState(1);
+  const [bathrooms, setBathrooms] = useState(1);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setStep("categories");
@@ -98,6 +103,14 @@ const UserMenu = ({ openModal }) => {
         handleClose={handleClose}
         step={step}
         setStep={setStep}
+        setCountry={setCountry}
+        country={country}
+        guests={guests}
+        setGuests={setGuests}
+        rooms={rooms}
+        setRooms={setRooms}
+        setBathrooms={setBathrooms}
+        bathrooms={bathrooms}
       />
     </div>
   );

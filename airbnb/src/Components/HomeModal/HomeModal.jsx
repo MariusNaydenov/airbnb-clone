@@ -3,6 +3,8 @@ import Modal from "@mui/material/Modal";
 import { useState } from "react";
 import ModalCategories from "../ModalCategories/ModalCategories";
 import ModalPlaceLocated from "../ModalPlaceLocated/ModalPlaceLocated";
+import HomeFeatures from "../HomeFeatures/HomeFeatures";
+import ImageModal from "../ImageModal/ImageModal";
 
 const style = {
   position: "absolute",
@@ -16,10 +18,22 @@ const style = {
   overflow: "auto",
   borderRadius: "10px",
   outline: "none",
- 
 };
 
-const HomeModal = ({ open, handleClose, step, setStep }) => {
+const HomeModal = ({
+  open,
+  handleClose,
+  step,
+  setStep,
+  setCountry,
+  country,
+  guests,
+  setGuests,
+  rooms,
+  setRooms,
+  bathrooms,
+  setBathrooms,
+}) => {
   const [category, setCategory] = useState("Beach");
 
   return (
@@ -64,7 +78,26 @@ const HomeModal = ({ open, handleClose, step, setStep }) => {
               setStep={setStep}
             />
           )}
-          {step === "place" && <ModalPlaceLocated />}
+          {step === "place" && (
+            <ModalPlaceLocated
+              country={country}
+              setCountry={setCountry}
+              setStep={setStep}
+            />
+          )}
+          {step === "homeFeatures" && (
+            <HomeFeatures
+              step={step}
+              setStep={setStep}
+              guests={guests}
+              setGuests={setGuests}
+              rooms={rooms}
+              setRooms={setRooms}
+              bathrooms={bathrooms}
+              setBathrooms={setBathrooms}
+            />
+          )}
+          {step === "image" && <ImageModal />}
         </Box>
       </Modal>
     </div>

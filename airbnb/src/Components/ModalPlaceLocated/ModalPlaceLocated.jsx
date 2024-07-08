@@ -5,14 +5,27 @@ import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import Select from "react-select";
 import { useState } from "react";
+import countries from "world-countries";
+import StyledButton from "../Button/Button";
 
-const ModalPlaceLocated = () => {
+const ModalPlaceLocated = ({ setCountry, country, setStep }) => {
   const [mapZIndex, setMapZIndex] = useState(0);
-  const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-  ];
+
+  const ChangeMapView = ({ coords }) => {
+    const map = useMap();
+    map.setView(coords, map.getZoom());
+    return null;
+  };
+
+  const countryOptions = countries.map((country) => ({
+    value: country.name.official,
+    label: country.name.common,
+    coordinates: country.latlng,
+  }));
+
+  const handleCountryChange = (selectedOption) => {
+    setCountry(selectedOption);
+  };
 
   const handleMenuOpen = () => {
     setMapZIndex(-1);
@@ -30,11 +43,12 @@ const ModalPlaceLocated = () => {
       />
 
       <Select
-        options={options}
+        options={countryOptions}
         className="react-select-container"
         classNamePrefix="react-select"
         onFocus={handleMenuOpen}
         onBlur={handleMenuClose}
+        onChange={handleCountryChange}
         styles={{
           option: (provided, state) => ({
             ...provided,
@@ -52,13 +66,13 @@ const ModalPlaceLocated = () => {
           }),
           singleValue: (provided) => ({
             ...provided,
-            color: "black", // Color for selected option
+            color: "black",
           }),
         }}
       />
 
       <MapContainer
-        center={[51.505, -0.09]}
+        center={country === null ? [0, 0] : country.coordinates}
         zoom={3}
         scrollWheelZoom={false}
         style={{ zIndex: mapZIndex }}
@@ -67,10 +81,25 @@ const ModalPlaceLocated = () => {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={[51.505, -0.09]}>
+        {country && <ChangeMapView coords={country.coordinates} />}
+        <Marker position={country === null ? [0, 0] : country.coordinates}>
           <Popup></Popup>
         </Marker>
       </MapContainer>
+      <Box sx={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+        <StyledButton
+          width={"50%"}
+          color={"rgb(244, 63, 94)"}
+          text={"Back"}
+          func={() => setStep("categories")}
+        />
+        <StyledButton
+          width={"50%"}
+          color={"rgb(244, 63, 94)"}
+          text={"Continue"}
+          func={() => setStep("homeFeatures")}
+        />
+      </Box>
     </Box>
   );
 };
