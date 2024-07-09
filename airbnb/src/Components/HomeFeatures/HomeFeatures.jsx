@@ -2,6 +2,7 @@ import Heading from "../Heading/Heading";
 import RoomFeatures from "../RoomFeatures/RoomFeatures";
 import StyledButton from "../Button/Button";
 import { Box } from "@mui/material";
+import BackButton from "../BackButton/BackButton";
 
 const HomeFeatures = ({
   step,
@@ -38,12 +39,7 @@ const HomeFeatures = ({
         setFeature={setBathrooms}
       />
        <Box sx={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-        <StyledButton
-          width={"50%"}
-          color={"rgb(244, 63, 94)"}
-          text={"Back"}
-          func={() => setStep("place")}
-        />
+       <BackButton width={"50%"} text={"Back"} func={() => setStep("place")} />
         <StyledButton
           width={"50%"}
           color={"rgb(244, 63, 94)"}

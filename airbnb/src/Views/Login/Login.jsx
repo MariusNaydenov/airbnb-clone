@@ -12,8 +12,9 @@ const Login = () => {
   const navigate = useNavigate();
   const [emailValue, setEmailValue] = useState("");
   const [password, setPasswordValue] = useState("");
-  const { isAuthenticated, setAuthentication } = useContext(AppContext);
+  const { setAuthentication, setUser, user } = useContext(AppContext);
 
+  // console.log(user);
   const LogUser = async (e) => {
     e.preventDefault();
     try {
@@ -26,6 +27,7 @@ const Login = () => {
 
       if (response.ok) {
         setAuthentication(true);
+        setUser(data);
         navigate("/home");
       } else {
         toast.error(data.message, {

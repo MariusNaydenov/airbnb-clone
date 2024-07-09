@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 dotenv.config();
 const MY_URI = process.env.MY_URI;
 import User from "./src/Models/userModule.js";
+import Property from "./src/Models/propertyModel.js";
 
 const port = 3000;
 const app = express();
@@ -79,17 +80,18 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post("/user", async (req, res) => {
-  const { email } = req.body;
+app.post("/properties", async (req, res) => {
+  const property = req.body;
 
   try {
-    const user = await User.findOne({ email });
-
-    if (user) {
-      res.status(200).json(user);
-      return;
-    }
+    const newProperty = await Property.create(property);
+    const user = await User.findByIdAndUpdate(
+      property.userId,
+      { $push: { properties: property } },
+      { safe: true, upsert: true }
+    );
+    res.status(200).json(newProperty);
   } catch (err) {
-    return res.status(500).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 });

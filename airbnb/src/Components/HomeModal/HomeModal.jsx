@@ -5,6 +5,8 @@ import ModalCategories from "../ModalCategories/ModalCategories";
 import ModalPlaceLocated from "../ModalPlaceLocated/ModalPlaceLocated";
 import HomeFeatures from "../HomeFeatures/HomeFeatures";
 import ImageModal from "../ImageModal/ImageModal";
+import DescriptionModal from "../DescriptionModal/DescriptionModal";
+import PriceModal from "../PriceModal/PriceModal";
 
 const style = {
   position: "absolute",
@@ -34,7 +36,14 @@ const HomeModal = ({
   bathrooms,
   setBathrooms,
   imageUrl,
-  setImageUrl
+  setImageUrl,
+  createProperty,
+  description,
+  setDescription,
+  title,
+  setTitle,
+  price,
+  setPrice,
 }) => {
   const [category, setCategory] = useState("Beach");
 
@@ -99,7 +108,30 @@ const HomeModal = ({
               setBathrooms={setBathrooms}
             />
           )}
-          {step === "image" && <ImageModal step={step} setStep={setStep} />}
+          {step === "image" && (
+            <ImageModal
+              setStep={setStep}
+              imageUrl={imageUrl}
+              setImageUrl={setImageUrl}
+            />
+          )}
+          {step === "description" && (
+            <DescriptionModal
+              description={description}
+              setDescription={setDescription}
+              setStep={setStep}
+              title={title}
+              setTitle={setTitle}
+            />
+          )}
+          {step === "price" && (
+            <PriceModal
+              setStep={setStep}
+              createProperty={createProperty}
+              price={price}
+              setPrice={setPrice}
+            />
+          )}
         </Box>
       </Modal>
     </div>

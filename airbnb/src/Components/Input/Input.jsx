@@ -7,7 +7,6 @@ const Input = (props) => {
         type={props.type}
         value={props.value}
         onChange={(e) => props.setValue(e.target.value)}
-        // id="outlined-basic"
         label={props.label}
         variant="outlined"
         InputLabelProps={{

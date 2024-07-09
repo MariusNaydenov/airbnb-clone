@@ -7,6 +7,7 @@ import Select from "react-select";
 import { useState } from "react";
 import countries from "world-countries";
 import StyledButton from "../Button/Button";
+import BackButton from "../BackButton/BackButton";
 
 const ModalPlaceLocated = ({ setCountry, country, setStep }) => {
   const [mapZIndex, setMapZIndex] = useState(0);
@@ -16,6 +17,8 @@ const ModalPlaceLocated = ({ setCountry, country, setStep }) => {
     map.setView(coords, map.getZoom());
     return null;
   };
+
+
 
   const countryOptions = countries.map((country) => ({
     value: country.name.official,
@@ -43,6 +46,7 @@ const ModalPlaceLocated = ({ setCountry, country, setStep }) => {
       />
 
       <Select
+        value={country}
         options={countryOptions}
         className="react-select-container"
         classNamePrefix="react-select"
@@ -87,17 +91,13 @@ const ModalPlaceLocated = ({ setCountry, country, setStep }) => {
         </Marker>
       </MapContainer>
       <Box sx={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-        <StyledButton
-          width={"50%"}
-          color={"rgb(244, 63, 94)"}
-          text={"Back"}
-          func={() => setStep("categories")}
-        />
+      <BackButton width={"50%"} text={"Back"} func={() => setStep("categories")} />
         <StyledButton
           width={"50%"}
           color={"rgb(244, 63, 94)"}
           text={"Continue"}
           func={() => setStep("homeFeatures")}
+          disabled={!country ? true : false}
         />
       </Box>
     </Box>

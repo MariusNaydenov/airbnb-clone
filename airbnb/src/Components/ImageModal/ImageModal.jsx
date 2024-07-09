@@ -2,11 +2,12 @@ import React, { useRef, useEffect, useState } from "react";
 import { TbPhotoPlus } from "react-icons/tb";
 import Heading from "../Heading/Heading";
 import StyledButton from "../Button/Button";
+import BackButton from "../BackButton/BackButton";
 import { Box } from "@mui/material";
-const MY_CLOUDINARY_NAME = process.env.MY_CLOUDINARY_NAME;
-const MY_UPLOAD_PRESET_NAME = process.env.MY_UPLOAD_PRESET_NAME
+const MY_CLOUDINARY_NAME = import.meta.env.VITE_CLOUDINARY_NAME;
+const MY_UPLOAD_PRESET_NAME = import.meta.env.VITE_UPLOAD_PRESET_NAME;
 
-const ImageModal = ({ step, setStep, imageUrl, setImageUrl }) => {
+const ImageModal = ({  setStep, imageUrl, setImageUrl }) => {
   const widgetRef = useRef(null);
 
   useEffect(() => {
@@ -18,7 +19,6 @@ const ImageModal = ({ step, setStep, imageUrl, setImageUrl }) => {
       (error, result) => {
         if (!error && result && result.event === "success") {
           setImageUrl(result.info.secure_url);
-          console.log("Upload success:", result.info.secure_url);
         }
         if (error) {
           console.error("Upload error:", error);
@@ -66,17 +66,13 @@ const ImageModal = ({ step, setStep, imageUrl, setImageUrl }) => {
       </div>
 
       <Box sx={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-        <StyledButton
-          width={"50%"}
-          color={"rgb(244, 63, 94)"}
-          text={"Back"}
-          func={() => setStep("place")}
-        />
+        <BackButton width={"50%"} text={"Back"} func={() => setStep("homeFeatures")} />
         <StyledButton
           width={"50%"}
           color={"rgb(244, 63, 94)"}
           text={"Next"}
-          // func={() => setStep("image")}
+          disabled={!imageUrl ? true : false}
+          func={() => setStep('description')}
         />
       </Box>
     </div>
@@ -84,3 +80,5 @@ const ImageModal = ({ step, setStep, imageUrl, setImageUrl }) => {
 };
 
 export default ImageModal;
+
+

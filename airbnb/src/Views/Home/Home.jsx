@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import AppContext from "../../Context/AppContext";
-import { json, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { Box } from "@mui/material";
 import { LuPalmtree } from "react-icons/lu";
 import Search from "../../Components/Search/Search";
@@ -8,8 +8,8 @@ import UserMenu from "../../Components/UserMenu/UserMenu";
 import Categories from "../../Components/Categories/Categories";
 
 const Home = () => {
-  const { isAuthenticated, } = useContext(AppContext);
-
+  const { isAuthenticated } = useContext(AppContext);
+ 
 
   return (
     <>

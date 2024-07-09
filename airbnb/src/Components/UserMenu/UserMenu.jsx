@@ -1,10 +1,14 @@
 import { Avatar } from "@mui/material";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useContext } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import MenuOption from "../MenuOption/MenuOption";
 import HomeModal from "../HomeModal/HomeModal";
+import AppContext from "../../Context/AppContext";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
-const UserMenu = ({ openModal }) => {
+const UserMenu = () => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState("categories");
@@ -13,10 +17,60 @@ const UserMenu = ({ openModal }) => {
   const [rooms, setRooms] = useState(1);
   const [bathrooms, setBathrooms] = useState(1);
   const [imageUrl, setImageUrl] = useState("");
+  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState("");
+  const [price, setPrice] = useState(1);
+
+  const handleMenuOptionPath = (path) => {
+    navigate(`/${path}`);
+    setIsOpen(false);
+  };
 
   const handleOpen = () => setOpen(true);
+  const { user } = useContext(AppContext);
+
   const handleClose = () => {
     setStep("categories");
+    setCountry(null);
+    setImageUrl("");
+    setTitle("");
+    setDescription("");
+    setPrice(1);
+    setOpen(false);
+  };
+
+  const createProperty = async () => {
+    const property = {
+      country: country.value,
+      guests: guests,
+      rooms: rooms,
+      bathrooms: bathrooms,
+      imageUrl: imageUrl,
+      price: price,
+      description: description,
+      title: title,
+      user: user.email,
+      userId: user._id,
+    };
+
+    const response = await fetch("http://localhost:3000/properties", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(property),
+    });
+
+    if (response.ok) {
+      toast.success("You've successfully added your property", {
+        position: "top-center",
+      });
+    }
+
+    setStep("categories");
+    setCountry(null);
+    setImageUrl("");
+    setTitle("");
+    setDescription("");
+    setPrice(1);
     setOpen(false);
   };
 
@@ -94,7 +148,10 @@ const UserMenu = ({ openModal }) => {
             <MenuOption label="My trips" />
             <MenuOption label="My favorites" />
             <MenuOption label="My reservations" />
-            <MenuOption label="My properties" />
+            <MenuOption
+              label="My properties"
+              onClick={() => handleMenuOptionPath("properties")}
+            />
             <MenuOption label="Logout" />
           </div>
         </div>
@@ -114,6 +171,13 @@ const UserMenu = ({ openModal }) => {
         bathrooms={bathrooms}
         imageUrl={imageUrl}
         setImageUrl={setImageUrl}
+        createProperty={createProperty}
+        description={description}
+        setDescription={setDescription}
+        price={price}
+        setPrice={setPrice}
+        title={title}
+        setTitle={setTitle}
       />
     </div>
   );
