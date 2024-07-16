@@ -141,7 +141,9 @@ const UserMenu = () => {
         overflow-hidden
         right-0
         top-12
-        text-sm"
+        text-sm
+        z-10"
+        
         >
           <div
             className="

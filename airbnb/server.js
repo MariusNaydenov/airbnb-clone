@@ -11,7 +11,13 @@ const port = 3000;
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type"],
+  })
+);
 
 mongoose
   .connect(MY_URI)
@@ -104,5 +110,27 @@ app.get("/properties/owner", async (req, res) => {
     res.status(200).json(owner);
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+});
+
+app.post("/remove-property", async (req, res) => {
+  const { id, imageUrl } = req.body;
+
+  try {
+    const result = await User.updateOne(
+      { "properties._id": id },
+      { $pull: { properties: { _id: id } } }
+    );
+
+    const property = await Property.findOneAndDelete({ imageUrl: imageUrl });
+
+    if (result.modifiedCount > 0) {
+      res.status(200).send({ message: "Property removed successfully" });
+    } else {
+      res.status(404).send({ message: "Property not found" });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ message: "Internal server error" });
   }
 });

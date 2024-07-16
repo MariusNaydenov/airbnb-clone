@@ -13,6 +13,22 @@ const Properties = () => {
   const [properties, setProperties] = useState([]);
   const [open, isOpen] = useState({});
 
+  const deleteProperty = async (id, imageUrl) => {
+    try {
+      const response = await fetch("http://localhost:3000/remove-property", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, imageUrl }),
+      });
+
+      if (response.ok) {
+        setProperties((prev) => prev.filter((property) => property._id !== id));
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const toggle = (id) => {
     isOpen((prev) => ({
       ...prev,
@@ -37,7 +53,7 @@ const Properties = () => {
       }
     };
     getProperties();
-  }, []);
+  }, [properties]);
 
   return (
     <Box
@@ -122,7 +138,7 @@ const Properties = () => {
                 >
                   <CiHeart
                     size={25}
-                    color='white'
+                    color="white"
                     className="absolute top-2 right-14 cursor-pointer"
                   />
                   <PiChatDotsThin
@@ -135,6 +151,9 @@ const Properties = () => {
                     <div
                       className="bg-white absolute top-9 left-3 rounded-lg px-4 cursor-pointer"
                       style={{ fontFamily: "Nunito,sans-serif" }}
+                      onClick={() =>
+                        deleteProperty(property._id, property.imageUrl)
+                      }
                     >
                       Delete Property
                     </div>
