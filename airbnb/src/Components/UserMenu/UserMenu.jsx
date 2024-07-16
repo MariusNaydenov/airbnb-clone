@@ -20,6 +20,7 @@ const UserMenu = () => {
   const [description, setDescription] = useState("");
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState(1);
+  const [category, setCategory] = useState("Beach");
 
   const handleMenuOptionPath = (path) => {
     navigate(`/${path}`);
@@ -28,6 +29,7 @@ const UserMenu = () => {
 
   const handleOpen = () => setOpen(true);
   const { user } = useContext(AppContext);
+  // console.log(user)
 
   const handleClose = () => {
     setStep("categories");
@@ -51,6 +53,7 @@ const UserMenu = () => {
       title: title,
       user: user.email,
       userId: user._id,
+      category: category,
     };
 
     const response = await fetch("http://localhost:3000/properties", {
@@ -178,6 +181,8 @@ const UserMenu = () => {
         setPrice={setPrice}
         title={title}
         setTitle={setTitle}
+        category={category}
+        setCategory={setCategory}
       />
     </div>
   );

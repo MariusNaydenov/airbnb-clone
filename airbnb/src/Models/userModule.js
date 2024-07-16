@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema(
           type: "String",
           required: true,
         },
+        category: {
+          type: "String",
+          required: true,
+        },
         guests: {
           type: "Number",
           required: true,

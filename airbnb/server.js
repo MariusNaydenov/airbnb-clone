@@ -87,10 +87,21 @@ app.post("/properties", async (req, res) => {
     const newProperty = await Property.create(property);
     const user = await User.findByIdAndUpdate(
       property.userId,
-      { $push: { properties: property } },
+      { $push: { properties: newProperty } },
       { safe: true, upsert: true }
     );
     res.status(200).json(newProperty);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.get("/properties/owner", async (req, res) => {
+  try {
+    const email = req.query.email;
+
+    const owner = await User.findOne({ email: email });
+    res.status(200).json(owner);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

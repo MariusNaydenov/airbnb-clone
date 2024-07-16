@@ -44,8 +44,10 @@ const HomeModal = ({
   setTitle,
   price,
   setPrice,
+  category,
+  setCategory
 }) => {
-  const [category, setCategory] = useState("Beach");
+  
 
   return (
     <div>

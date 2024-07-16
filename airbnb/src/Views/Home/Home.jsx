@@ -8,8 +8,8 @@ import UserMenu from "../../Components/UserMenu/UserMenu";
 import Categories from "../../Components/Categories/Categories";
 
 const Home = () => {
-  const { isAuthenticated } = useContext(AppContext);
- 
+  const { isAuthenticated, user } = useContext(AppContext);
+  // console.log(user);
 
   return (
     <>

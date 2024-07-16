@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AppContext from "./Context/AppContext.js";
 import { useEffect, useState } from "react";
 import Login from "./Views/Login/Login.jsx";
@@ -13,7 +13,9 @@ function App() {
 
 
   return (
-    <AppContext.Provider value={{ isAuthenticated, setAuthentication, user, setUser }}>
+    <AppContext.Provider
+      value={{ isAuthenticated, setAuthentication, user, setUser }}
+    >
       <Toaster />
       <BrowserRouter>
         <Routes>
