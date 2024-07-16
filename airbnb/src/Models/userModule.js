@@ -3,47 +3,45 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema(
   {
     username: {
-      type: "String",
+      type: String,
       required: true,
     },
     email: {
-      type: "String",
+      type: String,
       required: true,
     },
     password: {
-      type: "String",
+      type: String,
       required: true,
     },
     properties: [
       {
-        // type: mongoose.Schema.Types.ObjectId,
-        // ref: "Property",
         country: {
-          type: "String",
+          type: String,
           required: true,
         },
         category: {
-          type: "String",
+          type: String,
           required: true,
         },
         guests: {
-          type: "Number",
+          type: Number,
           required: true,
         },
         rooms: {
-          type: "Number",
+          type: Number,
           required: true,
         },
         bathrooms: {
-          type: "Number",
+          type: Number,
           required: true,
         },
         imageUrl: {
-          type: "String",
+          type: String,
           required: true,
         },
         user: {
-          type: "String",
+          type: String,
           required: true,
         },
         userId: {
@@ -52,15 +50,64 @@ const userSchema = new mongoose.Schema(
           required: true,
         },
         price: {
-          type: "Number",
+          type: Number,
           required: true,
         },
         title: {
-          type: "String",
+          type: String,
           required: true,
         },
         description: {
-          type: "String",
+          type: String,
+          required: true,
+        },
+      },
+    ],
+    favourites: [
+      {
+        country: {
+          type: String,
+          required: true,
+        },
+        category: {
+          type: String,
+          required: true,
+        },
+        guests: {
+          type: Number,
+          required: true,
+        },
+        rooms: {
+          type: Number,
+          required: true,
+        },
+        bathrooms: {
+          type: Number,
+          required: true,
+        },
+        imageUrl: {
+          type: String,
+          required: true,
+        },
+        user: {
+          type: String,
+          required: true,
+        },
+        userId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          required: true,
+        },
+        price: {
+          type: Number,
+          required: true,
+        },
+        title: {
+          type: String,
+          required: true,
+        },
+        description: {
+          type: String,
           required: true,
         },
       },

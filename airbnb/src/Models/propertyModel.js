@@ -3,31 +3,31 @@ import mongoose from "mongoose";
 const propertySchema = new mongoose.Schema(
   {
     country: {
-      type: "String",
+      type: String,
       required: true,
     },
     guests: {
-      type: "Number",
+      type: Number,
       required: true,
     },
     rooms: {
-      type: "Number",
+      type: Number,
       required: true,
     },
     bathrooms: {
-      type: "Number",
+      type: Number,
       required: true,
     },
     imageUrl: {
-      type: "String",
+      type: String,
       required: true,
     },
     user: {
-      type: "String",
+      type: String,
       required: true,
     },
     category: {
-      type: "String",
+      type: String,
       required: true,
     },
     userId: {
@@ -36,15 +36,15 @@ const propertySchema = new mongoose.Schema(
       required: true,
     },
     price: {
-      type: "Number",
+      type: Number,
       required: true,
     },
     title: {
-      type: "String",
+      type: String,
       required: true,
     },
     description: {
-      type: "String",
+      type: String,
       required: true,
     },
   },

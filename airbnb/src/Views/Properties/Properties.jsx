@@ -7,11 +7,57 @@ import AppContext from "../../Context/AppContext";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 import { PiChatDotsThin } from "react-icons/pi";
+import { useNavigate } from "react-router-dom";
 
 const Properties = () => {
   const { user } = useContext(AppContext);
+  const navigate = useNavigate();
   const [properties, setProperties] = useState([]);
   const [open, isOpen] = useState({});
+  const [favourites, setFavourites] = useState([]);
+
+  const addFavourite = async (item) => {
+    const property = item;
+
+    try {
+      const response = await fetch("http://localhost:3000/add-favourite", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(property),
+      });
+
+      if (response.ok) {
+        setFavourites((prev) => [...prev, property.imageUrl]);
+      } else {
+        console.log("not added");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const removeFavourite = async (item) => {
+    const property = item;
+
+    try {
+      const response = await fetch("http://localhost:3000/remove-favourite", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(property),
+      });
+
+      if (response.ok) {
+        setFavourites((prev) =>
+          prev.filter((url) => url !== property.imageUrl)
+        );
+      } else {
+        const errorData = await response.json();
+        console.log("Failed to remove favourite", errorData);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const deleteProperty = async (id, imageUrl) => {
     try {
@@ -36,24 +82,26 @@ const Properties = () => {
     }));
   };
 
-  useEffect(() => {
-    const getProperties = async () => {
-      if (user) {
-        try {
-          const response = await fetch(
-            `http://localhost:3000/properties/owner?email=${user.email}`
-          );
-          if (response.ok) {
-            const data = await response.json();
-            setProperties(data.properties);
-          }
-        } catch (err) {
-          console.log(err);
-        }
+  const getProperties = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/properties/owner?email=${user.email}`
+      );
+      const data = await response.json();
+      if (response.ok) {
+        setProperties(data.properties);
+        setFavourites(data.favourites.map((fav) => fav.imageUrl));
       }
-    };
-    getProperties();
-  }, [properties]);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      getProperties();
+    }
+  }, [user]);
 
   return (
     <Box
@@ -127,20 +175,31 @@ const Properties = () => {
             </p>
           </div>
           <div
-            className="grid grid-cols-5 gap-y-10"
+            className="grid grid-cols-5 gap-y-10 gap-5"
             style={{ padding: "25px 180px" }}
           >
             {properties.map((property) => {
               return (
                 <div
-                  className="flex flex-col h-full gap-1 relative"
+                  className="flex flex-col h-full gap-1 relative cursor-pointer"
                   key={property._id}
+                  onClick={() => navigate(`/properties/${property._id}`)}
                 >
-                  <CiHeart
-                    size={25}
-                    color="white"
-                    className="absolute top-2 right-14 cursor-pointer"
-                  />
+                  {favourites.includes(property.imageUrl) ? (
+                    <FaHeart
+                      size={25}
+                      color="red"
+                      className="absolute top-2 right-10 cursor-pointer"
+                      onClick={() => removeFavourite(property)}
+                    />
+                  ) : (
+                    <CiHeart
+                      size={25}
+                      color="white"
+                      className="absolute top-2 right-10 cursor-pointer"
+                      onClick={() => addFavourite(property)}
+                    />
+                  )}
                   <PiChatDotsThin
                     size={25}
                     className="absolute top-2 left-3 cursor-pointer"

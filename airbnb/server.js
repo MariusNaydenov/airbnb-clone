@@ -134,3 +134,31 @@ app.post("/remove-property", async (req, res) => {
     res.status(500).send({ message: "Internal server error" });
   }
 });
+
+app.post("/add-favourite", async (req, res) => {
+  const property = req.body;
+
+  try {
+    const result = await User.findByIdAndUpdate(
+      property.userId,
+      { $push: { favourites: property } },
+      { safe: true, upsert: true }
+    );
+    res.status(200).json({ message: "successfully added to favourites" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.post("/remove-favourite", async (req, res) => {
+  const property = req.body;
+
+  try {
+    const result = await User.findByIdAndUpdate(property.userId, {
+      $pull: { favourites: { imageUrl: property.imageUrl } },
+    });
+    res.status(200).json({ message: "Favourite removed successfully" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
