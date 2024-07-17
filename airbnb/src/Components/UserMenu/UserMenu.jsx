@@ -150,7 +150,6 @@ const UserMenu = () => {
           flex flex-col cursor-pointer
           "
           >
-            <MenuOption label="My trips" />
             <MenuOption
               label="My favourites"
               onClick={() => handleMenuOptionPath("favourites")}

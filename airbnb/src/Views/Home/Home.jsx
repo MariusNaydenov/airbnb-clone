@@ -6,6 +6,7 @@ import { LuPalmtree } from "react-icons/lu";
 import Search from "../../Components/Search/Search";
 import UserMenu from "../../Components/UserMenu/UserMenu";
 import Categories from "../../Components/Categories/Categories";
+import Logo from "../../Components/Logo/Logo";
 
 const Home = () => {
   const { isAuthenticated, user } = useContext(AppContext);
@@ -33,26 +34,7 @@ const Home = () => {
               borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
             }}
           >
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: "10px",
-              }}
-            >
-              <LuPalmtree style={{ color: "#f43f5e" }} size={30} />
-              <span
-                style={{
-                  color: "#f43f5e",
-                  fontFamily: "Nunito, sans-serif",
-                  fontSize: "1.2rem",
-                  fontWeight: "bold",
-                }}
-              >
-                vacation estates
-              </span>
-            </Box>
+            <Logo />
             <Search />
             <UserMenu />
           </Box>

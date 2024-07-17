@@ -7,6 +7,7 @@ import AppContext from "../../Context/AppContext";
 import { useNavigate } from "react-router-dom";
 import PropertiesBox from "../../Components/PropertiesBox/PropertiesBox";
 import Heading from "../../Components/Heading/Heading";
+import Logo from "../../Components/Logo/Logo";
 
 const Properties = () => {
   const { user, setUser } = useContext(AppContext);
@@ -169,26 +170,7 @@ const Properties = () => {
           borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "10px",
-          }}
-        >
-          <LuPalmtree style={{ color: "#f43f5e" }} size={30} />
-          <span
-            style={{
-              color: "#f43f5e",
-              fontFamily: "Nunito, sans-serif",
-              fontSize: "1.2rem",
-              fontWeight: "bold",
-            }}
-          >
-            vacation estates
-          </span>
-        </Box>
+        <Logo />
         <Search />
         <UserMenu />
       </Box>
@@ -228,4 +210,3 @@ const Properties = () => {
 };
 
 export default Properties;
-

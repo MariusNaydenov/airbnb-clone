@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import AppContext from "../../Context/AppContext";
 import { useNavigate } from "react-router-dom";
 import Heading from "../../Components/Heading/Heading";
+import Logo from "../../Components/Logo/Logo";
 
 const Favourites = () => {
   const { user, setUser } = useContext(AppContext);
@@ -85,26 +86,7 @@ const Favourites = () => {
           borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            gap: "10px",
-          }}
-        >
-          <LuPalmtree style={{ color: "#f43f5e" }} size={30} />
-          <span
-            style={{
-              color: "#f43f5e",
-              fontFamily: "Nunito, sans-serif",
-              fontSize: "1.2rem",
-              fontWeight: "bold",
-            }}
-          >
-            vacation estates
-          </span>
-        </Box>
+        <Logo />
         <Search />
         <UserMenu />
       </Box>
