@@ -4,8 +4,10 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
 const MY_URI = process.env.MY_URI;
-import User from "./src/Models/userModule.js";
-import Property from "./src/Models/propertyModel.js";
+// import User from "./src/Models/userModule.js";
+import Property from "../src/Models/propertyModel.js";
+import User from "../src/Models/userModule.js";
+// import Property from "./src/Models/propertyModel.js";
 
 const port = 3000;
 const app = express();

@@ -94,7 +94,7 @@ const Properties = () => {
       const data = await response.json();
       if (response.ok) {
         setProperties(data.properties);
-        setUserProperties(data.properties);
+        // setUserProperties(data.properties);
         setFavourites(data.favourites.map((fav) => fav.imageUrl));
       }
     } catch (err) {
