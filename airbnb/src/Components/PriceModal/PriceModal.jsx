@@ -9,6 +9,7 @@ const PriceModal = ({ setStep, createProperty, price, setPrice }) => {
       <Heading
         title="Now, set your price"
         subtitle="How much do you charge per night?"
+        
       />
       <Input
         type={"number"}

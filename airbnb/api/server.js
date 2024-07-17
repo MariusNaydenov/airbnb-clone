@@ -37,7 +37,7 @@ app.get("/", (req, res) => {
   res.send("Hello");
 });
 
-app.post("/users", async (req, res) => {
+app.post("/api/users", async (req, res) => {
   const person = req.body;
 
   try {
@@ -53,7 +53,7 @@ app.post("/users", async (req, res) => {
   }
 });
 
-app.get("/users", async (req, res) => {
+app.get("/api/users", async (req, res) => {
   try {
     const users = await User.find({});
     res.status(200).json(users);
@@ -88,7 +88,7 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
-app.post("/properties", async (req, res) => {
+app.post("/api/properties", async (req, res) => {
   const property = req.body;
 
   try {
@@ -104,7 +104,7 @@ app.post("/properties", async (req, res) => {
   }
 });
 
-app.get("/properties/owner", async (req, res) => {
+app.get("/api/properties/owner", async (req, res) => {
   try {
     const email = req.query.email;
 
@@ -115,7 +115,7 @@ app.get("/properties/owner", async (req, res) => {
   }
 });
 
-app.post("/remove-property", async (req, res) => {
+app.post("/api/remove-property", async (req, res) => {
   const { id, imageUrl } = req.body;
 
   try {
@@ -137,7 +137,7 @@ app.post("/remove-property", async (req, res) => {
   }
 });
 
-app.post("/add-favourite", async (req, res) => {
+app.post("/api/add-favourite", async (req, res) => {
   const property = req.body;
 
   try {
@@ -152,7 +152,7 @@ app.post("/add-favourite", async (req, res) => {
   }
 });
 
-app.post("/remove-favourite", async (req, res) => {
+app.post("/api/remove-favourite", async (req, res) => {
   const property = req.body;
 
   try {

@@ -42,16 +42,12 @@ const Login = () => {
   const LogUser = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/login`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: emailValue, password: password }),
-        }
-      );
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: emailValue, password: password }),
+      });
       const data = await response.json();
-      console.log(data);
 
       if (response.ok) {
         setAuthentication(true);

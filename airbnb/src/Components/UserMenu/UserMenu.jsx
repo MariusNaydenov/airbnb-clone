@@ -55,7 +55,7 @@ const UserMenu = () => {
       category: category,
     };
 
-    const response = await fetch("http://localhost:3000/properties", {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/properties`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(property),
@@ -151,7 +151,10 @@ const UserMenu = () => {
           "
           >
             <MenuOption label="My trips" />
-            <MenuOption label="My favorites" />
+            <MenuOption
+              label="My favourites"
+              onClick={() => handleMenuOptionPath("favourites")}
+            />
             <MenuOption label="My reservations" />
             <MenuOption
               label="My properties"

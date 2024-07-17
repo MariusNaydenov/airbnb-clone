@@ -7,11 +7,11 @@ import toast, { Toaster } from "react-hot-toast";
 import Home from "./Views/Home/Home.jsx";
 import Properties from "./Views/Properties/Properties.jsx";
 import PropertyView from "./Views/PropertyView/PropertyView.jsx";
+import Favourites from "./Views/Favourites/Favourites.jsx";
 
 function App() {
   const [isAuthenticated, setAuthentication] = useState(true);
   const [user, setUser] = useState(null);
-  const [userProperties, setUserProperties] = useState([]);
 
   return (
     <AppContext.Provider
@@ -20,8 +20,6 @@ function App() {
         setAuthentication,
         user,
         setUser,
-        userProperties,
-        setUserProperties,
       }}
     >
       <Toaster />
@@ -32,6 +30,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/properties" element={<Properties />} />
           <Route path="/properties/:id" element={<PropertyView />} />
+          <Route path="/favourites" element={<Favourites />} />
         </Routes>
       </BrowserRouter>
     </AppContext.Provider>
