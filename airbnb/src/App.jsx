@@ -11,10 +11,18 @@ import PropertyView from "./Views/PropertyView/PropertyView.jsx";
 function App() {
   const [isAuthenticated, setAuthentication] = useState(true);
   const [user, setUser] = useState(null);
+  const [userProperties, setUserProperties] = useState([]);
 
   return (
     <AppContext.Provider
-      value={{ isAuthenticated, setAuthentication, user, setUser }}
+      value={{
+        isAuthenticated,
+        setAuthentication,
+        user,
+        setUser,
+        userProperties,
+        setUserProperties,
+      }}
     >
       <Toaster />
       <BrowserRouter>

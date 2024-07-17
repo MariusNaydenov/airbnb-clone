@@ -10,9 +10,9 @@ import { PiChatDotsThin } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 
 const Properties = () => {
-  const { user } = useContext(AppContext);
+  const { user, setUser } = useContext(AppContext);
   const navigate = useNavigate();
-  const [properties, setProperties] = useState([]);
+  const [properties, setProperties] = useState(user.properties);
   const [open, isOpen] = useState({});
   const [favourites, setFavourites] = useState([]);
 
@@ -69,6 +69,10 @@ const Properties = () => {
 
       if (response.ok) {
         setProperties((prev) => prev.filter((property) => property._id !== id));
+        const newArrOfProps = user.properties.filter(
+          (property) => property._id !== id
+        );
+        setUser({ ...user, properties: newArrOfProps });
       }
     } catch (err) {
       console.log(err);
@@ -90,6 +94,7 @@ const Properties = () => {
       const data = await response.json();
       if (response.ok) {
         setProperties(data.properties);
+        setUserProperties(data.properties);
         setFavourites(data.favourites.map((fav) => fav.imageUrl));
       }
     } catch (err) {
@@ -183,7 +188,7 @@ const Properties = () => {
                 <div
                   className="flex flex-col h-full gap-1 relative cursor-pointer"
                   key={property._id}
-                  onClick={() => navigate(`/properties/${property._id}`)}
+                  // onClick={() => navigate(`/properties/${property._id}`)}
                 >
                   {favourites.includes(property.imageUrl) ? (
                     <FaHeart

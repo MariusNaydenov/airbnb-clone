@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 const UserMenu = () => {
+  const { user, setUser } = useContext(AppContext);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [open, setOpen] = useState(false);
@@ -28,8 +29,6 @@ const UserMenu = () => {
   };
 
   const handleOpen = () => setOpen(true);
-  const { user } = useContext(AppContext);
-  // console.log(user)
 
   const handleClose = () => {
     setStep("categories");
@@ -66,6 +65,8 @@ const UserMenu = () => {
       toast.success("You've successfully added your property", {
         position: "top-center",
       });
+      const newProperties = [...user.properties, property];
+      setUser({ ...user, properties: newProperties });
     }
 
     setStep("categories");
@@ -143,7 +144,6 @@ const UserMenu = () => {
         top-12
         text-sm
         z-10"
-        
         >
           <div
             className="

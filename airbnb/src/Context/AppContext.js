@@ -5,6 +5,8 @@ const AppContext = createContext({
   setAuthentication() {},
   user:null,
   setUser(){},
+  userProperties:[],
+  setUserProperties(){},
 });
 
 export default AppContext;
