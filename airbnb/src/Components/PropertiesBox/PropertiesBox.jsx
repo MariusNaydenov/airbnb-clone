@@ -1,7 +1,9 @@
+import { useContext } from "react";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 import { PiChatDotsThin } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
+import AppContext from "../../Context/AppContext";
 
 const PropertiesBox = ({
   properties,
@@ -13,11 +15,14 @@ const PropertiesBox = ({
   isOpen,
   deleteIcon,
   deleteProperty,
-  deleteLine
+  deleteLine,
 }) => {
+  const { user } = useContext(AppContext);
+  const navigate = useNavigate();
+
   return (
     <div
-      className="grid grid-cols-5 gap-y-10 gap-5"
+      className="grid grid-cols-5 gap-y-10 gap-7"
       style={{ padding: "25px 180px" }}
     >
       {properties.map((property) => {
@@ -25,21 +30,37 @@ const PropertiesBox = ({
           <div
             className="flex flex-col h-full gap-1 relative cursor-pointer"
             key={property._id}
-            // onClick={() => navigate(`/properties/${property._id}`)}
+            onClick={(e) => {
+              if (
+                !e.target.closest("[data-full-heart-icon]") ||
+                (!e.target.closest("[data-heart-icon]") &&
+                  !e.target.closest("[data-delete-icon]"))
+              ) {
+                navigate(`/properties/${property._id}`);
+              }
+            }}
           >
             {favourites.includes(property.imageUrl) ? (
               <FaHeart
                 size={25}
                 color="red"
+                data-full-heart-icon
                 className="absolute top-2 right-10 cursor-pointer"
-                onClick={() => removeFavourite(property)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  removeFavourite(property, user._id);
+                }}
               />
             ) : (
               <CiHeart
                 size={25}
                 color="white"
                 className="absolute top-2 right-10 cursor-pointer"
-                onClick={() => addFavourite(property)}
+                data-heart-icon
+                onClick={(e) => {
+                  e.stopPropagation();
+                  addFavourite(property, user._id);
+                }}
               />
             )}
             {deleteIcon && (
@@ -47,16 +68,21 @@ const PropertiesBox = ({
                 size={25}
                 className="absolute top-2 left-3 cursor-pointer"
                 color="white"
-                onClick={() => toggle(property._id)}
+                data-delete-icon
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggle(property._id);
+                }}
               />
             )}
             {deleteLine && open[property._id] && (
               <div
                 className="bg-white absolute top-9 left-3 rounded-lg px-4 cursor-pointer"
                 style={{ fontFamily: "Nunito,sans-serif" }}
-                onClick={() =>
-                  deleteProperty(property._id, property.imageUrl, property)
-                }
+                onClick={(e) => {
+                  e.stopPropagation();
+                  deleteProperty(property._id, property.imageUrl, property);
+                }}
               >
                 Delete Property
               </div>

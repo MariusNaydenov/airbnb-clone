@@ -12,11 +12,13 @@ import Logo from "../../Components/Logo/Logo";
 const Favourites = () => {
   const { user, setUser } = useContext(AppContext);
   const navigate = useNavigate();
-  const [properties, setProperties] = useState(user.properties);
+  const [properties, setProperties] = useState([]);
   const [favourites, setFavourites] = useState([]);
 
-  const removeFavourite = async (item) => {
+
+  const removeFavourite = async (item,id) => {
     const property = item;
+    const userId = id;
 
     try {
       const response = await fetch(
@@ -24,7 +26,7 @@ const Favourites = () => {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(property),
+          body: JSON.stringify({ property, userId }),
         }
       );
 
@@ -63,6 +65,7 @@ const Favourites = () => {
   useEffect(() => {
     if (user) {
       getProperties();
+      setProperties(user.properties);
     }
   }, [user]);
 

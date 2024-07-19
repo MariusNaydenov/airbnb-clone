@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 const UserMenu = () => {
-  const { user, setUser } = useContext(AppContext);
+  const { user, setUser, setAuthentication } = useContext(AppContext);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [open, setOpen] = useState(false);
@@ -28,6 +28,13 @@ const UserMenu = () => {
     setIsOpen(false);
   };
 
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.setItem("user", null);
+    setAuthentication(false);
+    navigate("/");
+  };
+
   const handleOpen = () => setOpen(true);
 
   const handleClose = () => {
@@ -38,6 +45,7 @@ const UserMenu = () => {
     setDescription("");
     setPrice(1);
     setOpen(false);
+    setCategory("Beach");
   };
 
   const createProperty = async () => {
@@ -76,6 +84,9 @@ const UserMenu = () => {
     setDescription("");
     setPrice(1);
     setOpen(false);
+    setGuests(1);
+    setBathrooms(1);
+    setRooms(1);
   };
 
   const toggleUserMenu = useCallback(() => {
@@ -159,7 +170,7 @@ const UserMenu = () => {
               label="My properties"
               onClick={() => handleMenuOptionPath("properties")}
             />
-            <MenuOption label="Logout" />
+            <MenuOption label="Logout" onClick={handleLogout} />
           </div>
         </div>
       )}

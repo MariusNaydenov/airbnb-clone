@@ -14,31 +14,6 @@ const Login = () => {
   const [password, setPasswordValue] = useState("");
   const { setAuthentication, setUser, user } = useContext(AppContext);
 
-  // console.log(user);
-  // const LogUser = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const response = await fetch("http://localhost:3000/login", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({ email: emailValue, password: password }),
-  //     });
-  //     const data = await response.json();
-
-  //     if (response.ok) {
-  //       setAuthentication(true);
-  //       setUser(data);
-  //       navigate("/home");
-  //     } else {
-  //       toast.error(data.message, {
-  //         position: "top-center",
-  //       });
-  //     }
-  //   } catch (err) {
-  //     console.log(err.message);
-  //   }
-  // };
-
   const LogUser = async (e) => {
     e.preventDefault();
     try {
@@ -51,6 +26,7 @@ const Login = () => {
 
       if (response.ok) {
         setAuthentication(true);
+        localStorage.setItem("user", JSON.stringify(data));
         setUser(data);
         navigate("/home");
       } else {

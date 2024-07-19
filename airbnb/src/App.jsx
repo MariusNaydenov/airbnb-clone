@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AppContext from "./Context/AppContext.js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Login from "./Views/Login/Login.jsx";
 import SignUp from "./Views/SignUp/SignUp.jsx";
 import toast, { Toaster } from "react-hot-toast";
@@ -12,6 +12,27 @@ import Favourites from "./Views/Favourites/Favourites.jsx";
 function App() {
   const [isAuthenticated, setAuthentication] = useState(true);
   const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    if (!user) {
+      const savedUser = localStorage.getItem("user");
+      setUser(JSON.parse(savedUser));
+    }
+  }, [user]);
+
+  
+
+  // useEffect(() => {
+  //   const handleBeforeUnload = () => {
+  //     localStorage.clear();
+  //   };
+
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
+
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //   };
+  // }, []);
 
   return (
     <AppContext.Provider

@@ -138,11 +138,11 @@ app.post("/api/remove-property", async (req, res) => {
 });
 
 app.post("/api/add-favourite", async (req, res) => {
-  const property = req.body;
+  const { property, userId } = req.body;
 
   try {
     const result = await User.findByIdAndUpdate(
-      property.userId,
+      userId,
       { $push: { favourites: property } },
       { safe: true, upsert: true }
     );
@@ -153,14 +153,24 @@ app.post("/api/add-favourite", async (req, res) => {
 });
 
 app.post("/api/remove-favourite", async (req, res) => {
-  const property = req.body;
+  const {property,userId} = req.body;
 
   try {
-    const result = await User.findByIdAndUpdate(property.userId, {
+    const result = await User.findByIdAndUpdate(userId, {
       $pull: { favourites: { imageUrl: property.imageUrl } },
     });
     res.status(200).json({ message: "Favourite removed successfully" });
   } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.get("/api/all-properties", async (req, res) => {
+  try {
+    const properties = await Property.find({});
+    res.status(200).json(properties);
+  } catch (err) {
+    console.log(err.message);
     res.status(500).json({ message: err.message });
   }
 });
