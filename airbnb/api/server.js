@@ -4,10 +4,8 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
 const MY_URI = process.env.MY_URI;
-// import User from "./src/Models/userModule.js";
 import Property from "../src/Models/propertyModel.js";
 import User from "../src/Models/userModule.js";
-// import Property from "./src/Models/propertyModel.js";
 
 const port = 3000;
 const app = express();
@@ -153,7 +151,7 @@ app.post("/api/add-favourite", async (req, res) => {
 });
 
 app.post("/api/remove-favourite", async (req, res) => {
-  const {property,userId} = req.body;
+  const { property, userId } = req.body;
 
   try {
     const result = await User.findByIdAndUpdate(userId, {
@@ -171,6 +169,23 @@ app.get("/api/all-properties", async (req, res) => {
     res.status(200).json(properties);
   } catch (err) {
     console.log(err.message);
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.post("/api/property", async (req, res) => {
+  const { id } = req.body;
+
+  try {
+    const property = await Property.findOne({
+      _id: id,
+    });
+    if (property) {
+      res.status(200).json(property);
+    } else {
+      res.status(404), json({ message: "Property not found" });
+    }
+  } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });

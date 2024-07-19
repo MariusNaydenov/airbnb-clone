@@ -192,8 +192,8 @@ const Properties = () => {
               title={"Properties"}
               subtitle={"List of your properties"}
             />
-          </div>
-
+          </div >
+          <div  style={{ padding: "25px 180px" }}>
           <PropertiesBox
             properties={properties}
             favourites={favourites}
@@ -205,7 +205,8 @@ const Properties = () => {
             deleteProperty={deleteProperty}
             deleteIcon={true}
             deleteLine={true}
-          />
+            />
+            </div>
         </div>
       )}
     </Box>

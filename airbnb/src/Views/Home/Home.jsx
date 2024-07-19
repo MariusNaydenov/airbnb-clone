@@ -121,14 +121,14 @@ const Home = () => {
             <UserMenu />
           </Box>
           <Categories />
-          
+          <div style={{ padding: "25px 90px" }}>
           <PropertiesBox
             properties={properties}
             favourites={favourites}
             removeFavourite={removeFavourite}
             addFavourite={addFavourite}
           />
-          
+          </div>
         </Box>
       ) : (
         <Navigate to="/" />

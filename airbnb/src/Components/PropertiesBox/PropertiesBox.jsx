@@ -22,13 +22,13 @@ const PropertiesBox = ({
 
   return (
     <div
-      className="grid grid-cols-5 gap-y-10 gap-7"
-      style={{ padding: "25px 180px" }}
+      className="grid grid-cols-5 gap-y-10 gap-7 "
+      // style={{ padding: "25px 180px" }}
     >
       {properties.map((property) => {
         return (
           <div
-            className="flex flex-col h-full gap-1 relative cursor-pointer"
+            className="flex flex-col h-full gap-1 cursor-pointer w-9/12 "
             key={property._id}
             onClick={(e) => {
               if (
@@ -40,59 +40,69 @@ const PropertiesBox = ({
               }
             }}
           >
-            {favourites.includes(property.imageUrl) ? (
-              <FaHeart
-                size={25}
-                color="red"
-                data-full-heart-icon
-                className="absolute top-2 right-10 cursor-pointer"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  removeFavourite(property, user._id);
+            <div style={{ position: "relative", width: "190px" }}>
+              {favourites.includes(property.imageUrl) ? (
+                <FaHeart
+                  size={25}
+                  color="red"
+                  data-full-heart-icon
+                  className="absolute z-10 top-2 right-5 cursor-pointer"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeFavourite(property, user._id);
+                  }}
+                />
+              ) : (
+                <CiHeart
+                  size={25}
+                  color="white"
+                  className="absolute z-10 top-2 right-5 cursor-pointer"
+                  data-heart-icon
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addFavourite(property, user._id);
+                  }}
+                />
+              )}
+              {deleteIcon && (
+                <PiChatDotsThin
+                  size={25}
+                  className="absolute top-2 left-3 cursor-pointer z-10"
+                  color="white"
+                  data-delete-icon
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggle(property._id);
+                  }}
+                />
+              )}
+              {deleteLine && open[property._id] && (
+                <div
+                  className="bg-white absolute top-9 left-3 rounded-lg px-4 cursor-pointer z-10"
+                  style={{ fontFamily: "Nunito,sans-serif" }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteProperty(property._id, property.imageUrl, property);
+                  }}
+                >
+                  Delete Property
+                </div>
+              )}
+              <img
+                src={property.imageUrl}
+                alt=""
+                // width="190px"
+                // style={{ borderRadius: "15px", position: "relative" }}
+                style={{
+                  borderRadius: "15px",
+                  position: "relative",
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
                 }}
               />
-            ) : (
-              <CiHeart
-                size={25}
-                color="white"
-                className="absolute top-2 right-10 cursor-pointer"
-                data-heart-icon
-                onClick={(e) => {
-                  e.stopPropagation();
-                  addFavourite(property, user._id);
-                }}
-              />
-            )}
-            {deleteIcon && (
-              <PiChatDotsThin
-                size={25}
-                className="absolute top-2 left-3 cursor-pointer"
-                color="white"
-                data-delete-icon
-                onClick={(e) => {
-                  e.stopPropagation();
-                  toggle(property._id);
-                }}
-              />
-            )}
-            {deleteLine && open[property._id] && (
-              <div
-                className="bg-white absolute top-9 left-3 rounded-lg px-4 cursor-pointer"
-                style={{ fontFamily: "Nunito,sans-serif" }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  deleteProperty(property._id, property.imageUrl, property);
-                }}
-              >
-                Delete Property
-              </div>
-            )}
-            <img
-              src={property.imageUrl}
-              alt=""
-              width="190px"
-              style={{ borderRadius: "15px" }}
-            />
+            </div>
+
             <span
               style={{
                 fontFamily: "Nunito,sans-serif",

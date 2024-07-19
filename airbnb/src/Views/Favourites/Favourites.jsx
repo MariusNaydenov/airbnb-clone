@@ -109,14 +109,15 @@ const Favourites = () => {
               subtitle={"List of your favourite places!"}
             />
           </div>
-
-          <PropertiesBox
+          <div style={{ padding: "25px 180px" }}>
+          <PropertiesBox  
             properties={properties}
             favourites={favourites}
             removeFavourite={removeFavourite}
             deleteIcon={false}
             deleteLine={false}
           />
+          </div>
         </div>
       )}
     </Box>
