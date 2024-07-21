@@ -7,6 +7,10 @@ import UserMenu from "../../Components/UserMenu/UserMenu";
 import "./styles.css";
 import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import { DateRange, Range, RangeKeyDict } from "react-date-range";
+
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
 
 import dayjs from "dayjs";
 // import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
@@ -15,24 +19,39 @@ import dayjs from "dayjs";
 // import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import Heading from "../../Components/Heading/Heading";
 import AppContext from "../../Context/AppContext";
+import StyledButton from "../../Components/Button/Button";
 
 const PropertyView = () => {
   const { user } = useContext(AppContext);
   const { id } = useParams();
   const [property, setProperty] = useState([]);
-  const [value, setValue] = useState([null, null]);
+  const [dates, setDates] = useState([
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: "selection",
+    },
+  ]);
 
-  const today = dayjs();
+  const startDate = dayjs(dates[0].startDate);
+  const endDate = dayjs(dates[0].endDate);
+
+  // console.log(startDate.date());
+  // console.log(startDate.format("MMMM"));
+
+  const differenceInDays = Math.abs(startDate.diff(endDate, "day")) + 1;
+
+  const price = !differenceInDays
+    ? property?.price
+    : differenceInDays * property?.price;
+
+  const today = dayjs().toDate();
   const propCoordinates = property?.coordinates || [0, 0];
 
   const ChangeMapView = ({ coords }) => {
     const map = useMap();
     map.setView(coords, map.getZoom());
     return null;
-  };
-
-  const shouldDisableDate = (date) => {
-    return date.isBefore(today, "day");
   };
 
   useEffect(() => {
@@ -114,8 +133,15 @@ const PropertyView = () => {
             }}
           />
         </Box>
-        <Box sx={{ display: "flex", width: "100%", marginTop: "20px" }}>
-          <Box sx={{ width: "60%", display: "flex", flexDirection: "column" }}>
+        <Box
+          sx={{
+            display: "flex",
+            width: "100%",
+            marginTop: "20px",
+            gap: "45px",
+          }}
+        >
+          <Box sx={{ width: "55%", display: "flex", flexDirection: "column" }}>
             <Box
               sx={{
                 display: "flex",
@@ -143,7 +169,9 @@ const PropertyView = () => {
               <span>{property?.rooms} rooms</span>{" "}
               <span>{property?.bathrooms} bathrooms</span>
             </Box>
-            <hr style={{ width: "100%", marginTop: "30px",marginBottom:'30px' }} />
+            <hr
+              style={{ width: "100%", marginTop: "30px", marginBottom: "30px" }}
+            />
             <Box
               style={{
                 display: "flex",
@@ -159,7 +187,9 @@ const PropertyView = () => {
                 This property is in the {property?.category}
               </span>
             </Box>
-            <hr style={{ width: "100%",marginTop: "30px",marginBottom:'30px' }} />
+            <hr
+              style={{ width: "100%", marginTop: "30px", marginBottom: "30px" }}
+            />
             <Box
               style={{
                 fontFamily: "Nunito,sans-serif",
@@ -168,7 +198,9 @@ const PropertyView = () => {
             >
               <span style={{ color: "#737373" }}>{property?.description}</span>
             </Box>
-            <hr style={{ width: "100%",marginTop: "30px",marginBottom:'30px' }} />
+            <hr
+              style={{ width: "100%", marginTop: "30px", marginBottom: "30px" }}
+            />
             <Box>
               <MapContainer
                 center={propCoordinates}
@@ -187,7 +219,82 @@ const PropertyView = () => {
             </Box>
           </Box>
 
-          {/* <Box sx={{ width: "40%" }}></Box> */}
+          <Box sx={{ width: "40%", display: "flex", flexDirection: "column" }}>
+            <div
+              style={{ borderRadius: "1rem 1rem 0 0" }}
+              className="
+            bg-white
+            
+            border-[1px]
+            border-neutral-200
+            overflow-hidden
+            "
+            >
+              <div
+                className="
+              flex flex-row items-center gap-1 p-4
+              "
+              >
+                <span className="text-2xl font-semibold">
+                  $ {property?.price}
+                </span>
+                <span className="font-light text-neutral-600">night</span>
+              </div>
+            </div>
+            <div
+              className="
+            bg-white
+            border-[1px]
+            border-neutral-200
+            overflow-hidden
+            "
+            >
+              <DateRange
+                rangeColors={["#262626"]}
+                ranges={dates}
+                // date={new Date()}
+                onChange={(item) => setDates([item.selection])}
+                direction="vertical"
+                minDate={today}
+                showDateDisplay={false}
+              />
+            </div>
+            <div
+              className="
+            bg-white
+            border-[1px]
+            border-neutral-200
+            overflow-hidden
+            p-4
+            "
+              style={{ borderRadius: "0 0 1rem 1rem" }}
+            >
+              <StyledButton
+                width={"100%"}
+                color={"rgb(244, 63, 94)"}
+                text={"Reserve"}
+              />
+              <div
+                className="
+              py-4
+              flex
+              flex-row
+              items-center
+              justify-between
+              font-semibold
+              text-lg
+              "
+              >
+                <span>Total</span>
+                <span>
+                  ${" "}
+                  {!differenceInDays
+                    ? property?.price
+                    : differenceInDays * property?.price}
+                </span>
+              </div>
+            </div>
+          </Box>
         </Box>
       </Box>
     </Box>
@@ -195,11 +302,3 @@ const PropertyView = () => {
 };
 
 export default PropertyView;
-
-{
-  /* <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DemoContainer components={["DateCalendar"]}>
-          <DateCalendar views={["day"]} shouldDisableDate={shouldDisableDate} />
-        </DemoContainer>
-      </LocalizationProvider> */
-}
