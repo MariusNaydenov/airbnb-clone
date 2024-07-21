@@ -23,6 +23,15 @@ const ModalPlaceLocated = ({
     return null;
   };
 
+  const customIcon = new L.Icon({
+    iconUrl: "/public/marker-icon-2x.png",
+    iconSize: [25, 41], // size of the icon
+    iconAnchor: [12, 41], // point of the icon which will correspond to marker's location
+    popupAnchor: [1, -34], // point from which the popup should open relative to the iconAnchor
+    shadowUrl: "/public/marker-shadow.png", // url for the shadow image
+    shadowSize: [41, 41], // size of the shadow
+  });
+
   useEffect(() => {
     if (country) {
       setCoordinates(country.coordinates);
@@ -95,7 +104,10 @@ const ModalPlaceLocated = ({
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         {country && <ChangeMapView coords={country.coordinates} />}
-        <Marker position={country === null ? [0, 0] : country.coordinates}>
+        <Marker
+          icon={customIcon}
+          position={country === null ? [0, 0] : country.coordinates}
+        >
           <Popup></Popup>
         </Marker>
       </MapContainer>

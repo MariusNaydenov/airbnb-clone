@@ -22,9 +22,10 @@ const SignUp = () => {
       });
       const data = await response.json();
       if (response.ok) {
-        toast.success("You have signed up successfully!", {
+        toast.success("You have created an account successfully!", {
           position: "top-center",
         });
+        navigate("/");
       }
       if (!response.ok) {
         toast.error(data.message, {
