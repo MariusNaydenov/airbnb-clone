@@ -22,6 +22,7 @@ const UserMenu = () => {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState(1);
   const [category, setCategory] = useState("Beach");
+  const [coordinates, setCoordinates] = useState([]);
 
   const handleMenuOptionPath = (path) => {
     navigate(`/${path}`);
@@ -61,6 +62,7 @@ const UserMenu = () => {
       user: user.email,
       userId: user._id,
       category: category,
+      coordinates: coordinates,
     };
 
     const response = await fetch(`${import.meta.env.VITE_API_URL}/properties`, {
@@ -198,6 +200,7 @@ const UserMenu = () => {
         setTitle={setTitle}
         category={category}
         setCategory={setCategory}
+        setCoordinates={setCoordinates}
       />
     </div>
   );

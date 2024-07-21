@@ -47,6 +47,10 @@ const propertySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    coordinates: {
+      type: Object,
+      required: true,
+    },
   },
 
   { timestamps: true }

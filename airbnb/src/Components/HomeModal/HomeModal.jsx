@@ -45,7 +45,8 @@ const HomeModal = ({
   price,
   setPrice,
   category,
-  setCategory
+  setCategory,
+  setCoordinates
 }) => {
   
 
@@ -53,7 +54,6 @@ const HomeModal = ({
     <div>
       <Modal
         open={open}
-        // onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -96,6 +96,7 @@ const HomeModal = ({
               country={country}
               setCountry={setCountry}
               setStep={setStep}
+              setCoordinates={setCoordinates}
             />
           )}
           {step === "homeFeatures" && (

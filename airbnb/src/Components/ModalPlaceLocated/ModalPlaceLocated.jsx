@@ -4,12 +4,17 @@ import Heading from "../Heading/Heading";
 import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import Select from "react-select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import countries from "world-countries";
 import StyledButton from "../Button/Button";
 import BackButton from "../BackButton/BackButton";
 
-const ModalPlaceLocated = ({ setCountry, country, setStep }) => {
+const ModalPlaceLocated = ({
+  setCountry,
+  country,
+  setStep,
+  setCoordinates,
+}) => {
   const [mapZIndex, setMapZIndex] = useState(0);
 
   const ChangeMapView = ({ coords }) => {
@@ -18,7 +23,11 @@ const ModalPlaceLocated = ({ setCountry, country, setStep }) => {
     return null;
   };
 
-
+  useEffect(() => {
+    if (country) {
+      setCoordinates(country.coordinates);
+    }
+  }, [country]);
 
   const countryOptions = countries.map((country) => ({
     value: country.name.official,
@@ -91,7 +100,11 @@ const ModalPlaceLocated = ({ setCountry, country, setStep }) => {
         </Marker>
       </MapContainer>
       <Box sx={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-      <BackButton width={"50%"} text={"Back"} func={() => setStep("categories")} />
+        <BackButton
+          width={"50%"}
+          text={"Back"}
+          func={() => setStep("categories")}
+        />
         <StyledButton
           width={"50%"}
           color={"rgb(244, 63, 94)"}

@@ -61,6 +61,10 @@ const userSchema = new mongoose.Schema(
           type: String,
           required: true,
         },
+        coordinates:{
+          type:Object,
+          required:true
+        }
       },
     ],
     favourites: [

@@ -23,7 +23,6 @@ const PropertiesBox = ({
   return (
     <div
       className="grid grid-cols-5 gap-y-10 gap-7 "
-      // style={{ padding: "25px 180px" }}
     >
       {properties.map((property) => {
         return (
@@ -91,8 +90,6 @@ const PropertiesBox = ({
               <img
                 src={property.imageUrl}
                 alt=""
-                // width="190px"
-                // style={{ borderRadius: "15px", position: "relative" }}
                 style={{
                   borderRadius: "15px",
                   position: "relative",
