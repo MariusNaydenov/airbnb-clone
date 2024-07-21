@@ -25,11 +25,11 @@ const ModalPlaceLocated = ({
 
   const customIcon = new L.Icon({
     iconUrl: "/marker-icon-2x.png",
-    iconSize: [25, 41], // size of the icon
-    iconAnchor: [12, 41], // point of the icon which will correspond to marker's location
-    popupAnchor: [1, -34], // point from which the popup should open relative to the iconAnchor
-    shadowUrl: "/marker-shadow.png", // url for the shadow image
-    shadowSize: [41, 41], // size of the shadow
+    iconSize: [25, 41], 
+    iconAnchor: [12, 41], 
+    popupAnchor: [1, -34], 
+    shadowUrl: "/marker-shadow.png", 
+    shadowSize: [41, 41], 
   });
 
   useEffect(() => {

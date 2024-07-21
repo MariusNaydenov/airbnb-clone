@@ -39,6 +39,15 @@ const PropertyView = () => {
   // console.log(startDate.date());
   // console.log(startDate.format("MMMM"));
 
+  const customIcon = new L.Icon({
+    iconUrl: "/marker-icon-2x.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowUrl: "/marker-shadow.png",
+    shadowSize: [41, 41],
+  });
+
   const differenceInDays = Math.abs(startDate.diff(endDate, "day")) + 1;
 
   const price = !differenceInDays
@@ -212,7 +221,7 @@ const PropertyView = () => {
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 {property && <ChangeMapView coords={propCoordinates} />}
-                <Marker position={propCoordinates}>
+                <Marker icon={customIcon} position={propCoordinates}>
                   <Popup></Popup>
                 </Marker>
               </MapContainer>
