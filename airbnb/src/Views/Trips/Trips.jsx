@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import Logo from "../../Components/Logo/Logo";
 import Search from "../../Components/Search/Search";
 import UserMenu from "../../Components/UserMenu/UserMenu";
 import Heading from "../../Components/Heading/Heading";
-import { data } from "autoprefixer";
 import StyledButton from "../../Components/Button/Button";
+import AppContext from "../../Context/AppContext";
 
 const Trips = () => {
+  const { user, setUser } = useContext(AppContext);
   const [trips, setTrips] = useState([]);
 
   const getReservations = async () => {
@@ -18,6 +19,27 @@ const Trips = () => {
       if (response.ok) {
         const data = await response.json();
         setTrips(data);
+        user.reservations = data;
+      }
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  };
+
+  const cancelReservation = async (id) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/cancel-reservation/${id}`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      if (response.ok) {
+        const newArrayOfReservation = user.reservations.filter(
+          (reservation) => reservation._id !== id
+        );
+        setUser({ ...user, reservations: newArrayOfReservation });
       }
     } catch (err) {
       throw new Error(err.message);
@@ -26,7 +48,7 @@ const Trips = () => {
 
   useEffect(() => {
     getReservations();
-  }, []);
+  }, [user]);
 
   return (
     <Box
@@ -137,6 +159,7 @@ const Trips = () => {
                       text={"Cancel reservation"}
                       width={"100%"}
                       color={"rgb(244, 63, 94)"}
+                      func={() => cancelReservation(trip._id)}
                     />
                   </div>
                 );

@@ -212,4 +212,15 @@ app.get("/api/reservations", async (req, res) => {
   }
 });
 
+app.delete("/api/cancel-reservation/:id", async (req, res) => {
+  const { id } = req.params;
 
+  try {
+    const reservation = await Reservation.findByIdAndDelete({ _id: id });
+    res.status(200).json({ message: "Reservation successfully canceled" });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while cancelling the reservation" });
+  }
+});
