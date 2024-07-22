@@ -6,6 +6,7 @@ dotenv.config();
 const MY_URI = process.env.MY_URI;
 import Property from "../src/Models/propertyModel.js";
 import User from "../src/Models/userModule.js";
+import Reservation from "../src/Models/reservationModel.js";
 
 const port = 3000;
 const app = express();
@@ -189,3 +190,26 @@ app.post("/api/property", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+app.post("/api/reservations", async (req, res) => {
+  const reservation = req.body;
+
+  try {
+    const newReservation = await Reservation.create(reservation);
+    res.status(200).json({ message: "Reservation successfully added" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.get("/api/reservations", async (req, res) => {
+  try {
+    const reservation = await Reservation.find({});
+    res.status(200).json(reservation);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json({ message: err.message });
+  }
+});
+
+

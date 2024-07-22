@@ -167,7 +167,10 @@ const UserMenu = () => {
               label="My favourites"
               onClick={() => handleMenuOptionPath("favourites")}
             />
-            <MenuOption label="My reservations" />
+            <MenuOption
+              label="My reservations"
+              onClick={() => handleMenuOptionPath("reservations")}
+            />
             <MenuOption
               label="My properties"
               onClick={() => handleMenuOptionPath("properties")}

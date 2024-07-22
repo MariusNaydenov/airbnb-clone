@@ -8,18 +8,13 @@ import "./styles.css";
 import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { DateRange, Range, RangeKeyDict } from "react-date-range";
-
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-
 import dayjs from "dayjs";
-// import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
-// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-// import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import Heading from "../../Components/Heading/Heading";
 import AppContext from "../../Context/AppContext";
 import StyledButton from "../../Components/Button/Button";
+import toast from "react-hot-toast";
 
 const PropertyView = () => {
   const { user } = useContext(AppContext);
@@ -35,9 +30,8 @@ const PropertyView = () => {
 
   const startDate = dayjs(dates[0].startDate);
   const endDate = dayjs(dates[0].endDate);
-
-  // console.log(startDate.date());
-  // console.log(startDate.format("MMMM"));
+  const startDateString = `${startDate.date()} ${startDate.format("MMMM")}`;
+  const endDateString = `${endDate.date()} ${endDate.format("MMMM")}`;
 
   const customIcon = new L.Icon({
     iconUrl: "/marker-icon-2x.png",
@@ -50,7 +44,7 @@ const PropertyView = () => {
 
   const differenceInDays = Math.abs(startDate.diff(endDate, "day")) + 1;
 
-  const price = !differenceInDays
+  const totalPrice = !differenceInDays
     ? property?.price
     : differenceInDays * property?.price;
 
@@ -61,6 +55,52 @@ const PropertyView = () => {
     const map = useMap();
     map.setView(coords, map.getZoom());
     return null;
+  };
+
+  const ReserveProperty = async (
+    imageUrl,
+    totalPrice,
+    startDate,
+    endDate,
+    country,
+    email
+  ) => {
+    const reservation = {
+      imageUrl: imageUrl,
+      price: totalPrice,
+      startDate: startDate,
+      endDate: endDate,
+      country: country,
+      email: email,
+    };
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/reservations`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(reservation),
+        }
+      );
+      if (response.ok) {
+        toast.success(
+          "You've successfully made reservation for this property!",
+          {
+            position: "top-center",
+          }
+        );
+        setDates([
+          {
+            startDate: new Date(),
+            endDate: new Date(),
+            key: "selection",
+          },
+        ]);
+      }
+    } catch (err) {
+      throw new Error(err.message);
+    }
   };
 
   useEffect(() => {
@@ -282,6 +322,16 @@ const PropertyView = () => {
                 width={"100%"}
                 color={"rgb(244, 63, 94)"}
                 text={"Reserve"}
+                func={() =>
+                  ReserveProperty(
+                    property.imageUrl,
+                    totalPrice,
+                    startDateString,
+                    endDateString,
+                    property.country,
+                    user.email
+                  )
+                }
               />
               <div
                 className="

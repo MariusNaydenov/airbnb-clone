@@ -21,13 +21,11 @@ const PropertiesBox = ({
   const navigate = useNavigate();
 
   return (
-    <div
-      className="grid grid-cols-5 gap-y-10 gap-7 "
-    >
+    <div className="grid grid-cols-5 gap-y-10 gap-7 ">
       {properties.map((property) => {
         return (
           <div
-            className="flex flex-col h-full gap-1 cursor-pointer w-9/12 "
+            className="flex flex-col h-full gap-1 cursor-pointer w-full "
             key={property._id}
             onClick={(e) => {
               if (
@@ -39,7 +37,7 @@ const PropertiesBox = ({
               }
             }}
           >
-            <div style={{ position: "relative", width: "190px" }}>
+            <div style={{ position: "relative", width: "190px",height:'130px',marginBottom:'10px' }}>
               {favourites.includes(property.imageUrl) ? (
                 <FaHeart
                   size={25}

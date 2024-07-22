@@ -8,6 +8,7 @@ import Home from "./Views/Home/Home.jsx";
 import Properties from "./Views/Properties/Properties.jsx";
 import PropertyView from "./Views/PropertyView/PropertyView.jsx";
 import Favourites from "./Views/Favourites/Favourites.jsx";
+import Trips from "./Views/Trips/Trips.jsx";
 
 function App() {
   const [isAuthenticated, setAuthentication] = useState(true);
@@ -52,6 +53,7 @@ function App() {
           <Route path="/properties" element={<Properties />} />
           <Route path="/properties/:id" element={<PropertyView />} />
           <Route path="/favourites" element={<Favourites />} />
+          <Route path="/reservations" element={<Trips />} />
         </Routes>
       </BrowserRouter>
     </AppContext.Provider>
