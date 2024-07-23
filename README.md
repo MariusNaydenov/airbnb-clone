@@ -1,4 +1,5 @@
 # Airbnb
+
 This is an Airbnb clone built with Reac, Vite, Tailwind CSS, MongoDB, Leaflet, Express, Cloudinary.
 
 ### Features
@@ -10,9 +11,8 @@ This is an Airbnb clone built with Reac, Vite, Tailwind CSS, MongoDB, Leaflet, E
 - **Real-Time Updates**: Dynamic updates using React and Vite.
 - **Backend API**: Express server with MongoDB for data management.
 
-
 ## Live Demo
 
-👉 [Live Demo](https://airbnb-clone-pi-khaki.vercel.app/)
+👉 [Live Demo](https://airbnb-clone-pi-khaki.vercel.app/) <br>
 &nbsp;&nbsp;&nbsp;&nbsp;account: test@gmail.com<br>
 &nbsp;&nbsp;&nbsp;&nbsp;password: 123456
