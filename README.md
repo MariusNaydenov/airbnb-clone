@@ -27,4 +27,5 @@ This is an Airbnb clone built with React, Vite, Tailwind CSS, MongoDB, Leaflet, 
 ![Properties](assets/my-properties.png)
 ![Favourites](assets/favourites.png)
 ![Reservations](assets/reservations.png)
+![Make-Reservation](assets/make-reservation.png)
 ![Property Listing](assets/listing-property.png)
