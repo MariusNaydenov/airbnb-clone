@@ -14,5 +14,5 @@ This is an Airbnb clone built with Reac, Vite, Tailwind CSS, MongoDB, Leaflet, E
 ## Live Demo
 
 👉 [Live Demo](https://airbnb-clone-pi-khaki.vercel.app/)
-    account: test@gmail.com 
-    password: 123456
+&nbsp;&nbsp;&nbsp;&nbsp;account: test@gmail.com<br>
+&nbsp;&nbsp;&nbsp;&nbsp;password: 123456
