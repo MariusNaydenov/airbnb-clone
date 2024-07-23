@@ -1,6 +1,6 @@
 # Airbnb
 
-This is an Airbnb clone built with Reac, Vite, Tailwind CSS, MongoDB, Leaflet, Express, Cloudinary.
+This is an Airbnb clone built with React, Vite, Tailwind CSS, MongoDB, Leaflet, Express, Cloudinary.
 
 ### Features
 
