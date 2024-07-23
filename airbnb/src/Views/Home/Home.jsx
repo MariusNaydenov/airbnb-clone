@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import AppContext from "../../Context/AppContext";
 import { Navigate } from "react-router-dom";
 import { Box } from "@mui/material";
-import { LuPalmtree } from "react-icons/lu";
 import Search from "../../Components/Search/Search";
 import UserMenu from "../../Components/UserMenu/UserMenu";
 import Categories from "../../Components/Categories/Categories";
@@ -13,6 +12,21 @@ const Home = () => {
   const { isAuthenticated, user, setUser } = useContext(AppContext);
   const [properties, setProperties] = useState([]);
   const [favourites, setFavourites] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [categoriesObject, setCategoriesObject] = useState({});
+
+  const handleCategories = (label) => {
+    setSelectedCategory(label);
+
+    setCategoriesObject((prevCategoriesObject) => {
+      const newCategoriesObject = { ...prevCategoriesObject, [label]: label };
+
+      localStorage.setItem("categories", JSON.stringify(newCategoriesObject));
+      localStorage.setItem("category", JSON.stringify(label));
+
+      return newCategoriesObject;
+    });
+  };
 
   const fetchAllProperties = async () => {
     const response = await fetch(
@@ -28,6 +42,7 @@ const Home = () => {
     } else {
       console.log("error during fetching");
     }
+    return data;
   };
 
   useEffect(() => {
@@ -35,7 +50,13 @@ const Home = () => {
       fetchAllProperties();
       setFavourites(user.favourites.map((fav) => fav.imageUrl));
     }
-  }, [user]);
+
+    const storedCategory = localStorage.getItem("category");
+    const storedCategories = localStorage.getItem("categories");
+
+    setSelectedCategory(storedCategory ? JSON.parse(storedCategory) : "");
+    setCategoriesObject(storedCategories ? JSON.parse(storedCategories) : {});
+  }, [user, selectedCategory]);
 
   const removeFavourite = async (item, id) => {
     const property = item;
@@ -68,6 +89,7 @@ const Home = () => {
     }
   };
 
+  // Add favourite property
   const addFavourite = async (item, id) => {
     const property = item;
     const userId = id;
@@ -120,14 +142,18 @@ const Home = () => {
             <Search />
             <UserMenu />
           </Box>
-          <Categories />
-          <div style={{ padding: "25px 90px" }}>
-          <PropertiesBox
-            properties={properties}
-            favourites={favourites}
-            removeFavourite={removeFavourite}
-            addFavourite={addFavourite}
+          <Categories
+            selectedCategory={selectedCategory}
+            handleCategories={handleCategories}
+            categoriesObject={categoriesObject}
           />
+          <div style={{ padding: "25px 90px" }}>
+            <PropertiesBox
+              properties={properties}
+              favourites={favourites}
+              removeFavourite={removeFavourite}
+              addFavourite={addFavourite}
+            />
           </div>
         </Box>
       ) : (

@@ -33,9 +33,7 @@ const categories = [
   { name: "Lux", icon: IoDiamond },
 ];
 
-
-
-const Categories = () => {
+const Categories = ({ selectedCategory, handleCategories,categoriesObject }) => {
   return (
     <div
       className="
@@ -54,6 +52,9 @@ const Categories = () => {
             key={category.name}
             icon={category.icon}
             label={category.name}
+            selectedCategory={selectedCategory}
+            handleCategories={handleCategories}
+            categoriesObject={categoriesObject}
           />
         );
       })}

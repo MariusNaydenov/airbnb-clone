@@ -1,10 +1,16 @@
 // import { IconType } from "react-icons";
 
-const CategoryBox = ({ label, icon: Icon, selected }) => {
+const CategoryBox = ({
+  label,
+  icon: Icon,
+  selectedCategory,
+  handleCategories,
+  categoriesObject,
+}) => {
   return (
     <div
+      onClick={() => handleCategories(label)}
       className={`
-      
       flex
       flex-col
       items-center
@@ -15,8 +21,12 @@ const CategoryBox = ({ label, icon: Icon, selected }) => {
       hover:text-neutral-800
       transition
       cursor-pointer
-        ${selected ? "border-b-neutral-800" : "border-transparent"}
-        ${selected ? "text-neutral-800" : "text-neutral-500"}
+        ${
+          categoriesObject[label] === selectedCategory
+            ? "border-b-neutral-800"
+            : "border-transparent"
+        }
+        ${categoriesObject[label] === selectedCategory ? "text-neutral-800" : "text-neutral-500"}
       `}
     >
       {<Icon size={20} />}

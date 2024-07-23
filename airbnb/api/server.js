@@ -116,12 +116,13 @@ app.get("/api/properties/owner", async (req, res) => {
 
 app.post("/api/remove-property", async (req, res) => {
   const { id, imageUrl } = req.body;
-
+ 
   try {
     const result = await User.updateOne(
       { "properties._id": id },
       { $pull: { properties: { _id: id } } }
     );
+
 
     const property = await Property.findOneAndDelete({ imageUrl: imageUrl });
 

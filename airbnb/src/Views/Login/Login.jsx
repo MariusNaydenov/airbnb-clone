@@ -26,6 +26,7 @@ const Login = () => {
 
       if (response.ok) {
         setAuthentication(true);
+        localStorage.clear();
         localStorage.setItem("user", JSON.stringify(data));
         setUser(data);
         navigate("/home");

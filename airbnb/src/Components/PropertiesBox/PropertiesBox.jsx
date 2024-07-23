@@ -37,7 +37,14 @@ const PropertiesBox = ({
               }
             }}
           >
-            <div style={{ position: "relative", width: "190px",height:'130px',marginBottom:'10px' }}>
+            <div
+              style={{
+                position: "relative",
+                width: "190px",
+                height: "130px",
+                marginBottom: "10px",
+              }}
+            >
               {favourites.includes(property.imageUrl) ? (
                 <FaHeart
                   size={25}
@@ -79,7 +86,7 @@ const PropertiesBox = ({
                   style={{ fontFamily: "Nunito,sans-serif" }}
                   onClick={(e) => {
                     e.stopPropagation();
-                    deleteProperty(property._id, property.imageUrl, property);
+                    deleteProperty(user._id, property.imageUrl, property);
                   }}
                 >
                   Delete Property

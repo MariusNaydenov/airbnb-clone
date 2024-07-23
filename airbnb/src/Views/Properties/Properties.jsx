@@ -72,7 +72,9 @@ const Properties = () => {
     }
   };
 
-  const deleteProperty = async (id, imageUrl, property) => {
+  const deleteProperty = async (userId, imageUrl, property) => {
+    const id = property._id;
+
     try {
       if (favourites.includes(property.imageUrl)) {
         try {
@@ -81,11 +83,20 @@ const Properties = () => {
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(property),
+              body: JSON.stringify({ property, userId }),
             }
           );
 
-          if (response.ok) {
+          const response1 = await fetch(
+            `${import.meta.env.VITE_API_URL}/remove-property`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ id, imageUrl }),
+            }
+          );
+
+          if (response.ok && response1.ok) {
             setFavourites((prev) =>
               prev.filter((url) => url !== property.imageUrl)
             );
@@ -93,6 +104,13 @@ const Properties = () => {
               (fav) => fav.imageUrl !== property.imageUrl
             );
             setUser({ ...user, favourites: newArrayOfFavProperties });
+            setProperties((prev) =>
+              prev.filter((property) => property._id !== id)
+            );
+            const newProperties = user.properties.filter(
+              (property) => property.imageUrl !== imageUrl
+            );
+            setUser({ ...user, properties: newProperties });
           } else {
             const errorData = await response.json();
             console.log("Failed to remove favourite", errorData);
@@ -100,23 +118,29 @@ const Properties = () => {
         } catch (err) {
           console.log(err);
         }
-      }
+      } else {
+        try {
+          const response = await fetch(
+            `${import.meta.env.VITE_API_URL}/remove-property`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ id, imageUrl }),
+            }
+          );
 
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/remove-property`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id, imageUrl }),
+          if (response.ok) {
+            setProperties((prev) =>
+              prev.filter((property) => property._id !== id)
+            );
+            const newProperties = user.properties.filter(
+              (property) => property.imageUrl !== imageUrl
+            );
+            setUser({ ...user, properties: newProperties });
+          }
+        } catch (err) {
+          throw new Error(err.message);
         }
-      );
-
-      if (response.ok) {
-        setProperties((prev) => prev.filter((property) => property._id !== id));
-        const newProperties = user.properties.filter(
-          (property) => property.imageUrl !== imageUrl
-        );
-        setUser({ ...user, properties: newProperties });
       }
     } catch (err) {
       console.log(err);
@@ -191,21 +215,21 @@ const Properties = () => {
               title={"Properties"}
               subtitle={"List of your properties"}
             />
-          </div >
-          <div  style={{ padding: "25px 180px" }}>
-          <PropertiesBox
-            properties={properties}
-            favourites={favourites}
-            removeFavourite={removeFavourite}
-            addFavourite={addFavourite}
-            toggle={toggle}
-            open={open}
-            isOpen={isOpen}
-            deleteProperty={deleteProperty}
-            deleteIcon={true}
-            deleteLine={true}
+          </div>
+          <div style={{ padding: "25px 180px" }}>
+            <PropertiesBox
+              properties={properties}
+              favourites={favourites}
+              removeFavourite={removeFavourite}
+              addFavourite={addFavourite}
+              toggle={toggle}
+              open={open}
+              isOpen={isOpen}
+              deleteProperty={deleteProperty}
+              deleteIcon={true}
+              deleteLine={true}
             />
-            </div>
+          </div>
         </div>
       )}
     </Box>

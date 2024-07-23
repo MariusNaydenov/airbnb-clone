@@ -33,6 +33,7 @@ const UserMenu = () => {
     setUser(null);
     localStorage.setItem("user", null);
     setAuthentication(false);
+    localStorage.clear();
     navigate("/");
   };
 
