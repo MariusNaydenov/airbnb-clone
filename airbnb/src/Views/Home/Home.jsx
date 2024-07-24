@@ -7,6 +7,8 @@ import UserMenu from "../../Components/UserMenu/UserMenu";
 import Categories from "../../Components/Categories/Categories";
 import Logo from "../../Components/Logo/Logo";
 import PropertiesBox from "../../Components/PropertiesBox/PropertiesBox";
+import Heading from "../../Components/Heading/Heading";
+import BackButton from "../../Components/BackButton/BackButton";
 
 const Home = () => {
   const { isAuthenticated, user, setUser } = useContext(AppContext);
@@ -14,6 +16,11 @@ const Home = () => {
   const [favourites, setFavourites] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [categoriesObject, setCategoriesObject] = useState({});
+
+  const removeFilterCategory = () => {
+    setSelectedCategory("");
+    localStorage.setItem("category", "");
+  };
 
   const handleCategories = (label) => {
     setSelectedCategory(label);
@@ -28,26 +35,52 @@ const Home = () => {
     });
   };
 
-  const fetchAllProperties = async () => {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_URL}/all-properties`,
-      {
-        method: "GET",
-      }
-    );
-    const data = await response.json();
+  const fetchAllProperties = async (category) => {
+    if (!category) {
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/all-properties`,
+          {
+            method: "GET",
+          }
+        );
+        const data = await response.json();
 
-    if (response.ok) {
-      setProperties(data);
+        if (response.ok) {
+          setProperties(data);
+        } else {
+          console.log("error during fetching");
+        }
+      } catch (err) {
+        throw new Error(err.message);
+      }
     } else {
-      console.log("error during fetching");
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/all-properties`,
+          {
+            method: "GET",
+          }
+        );
+        const data = await response.json();
+
+        if (response.ok) {
+          const filteredPropertiesByCategory = data.filter(
+            (prop) => prop.category === category
+          );
+          setProperties(filteredPropertiesByCategory);
+        } else {
+          console.log("error during fetching");
+        }
+      } catch (err) {
+        throw new Error(err.message);
+      }
     }
-    return data;
   };
 
   useEffect(() => {
     if (user) {
-      fetchAllProperties();
+      fetchAllProperties(selectedCategory);
       setFavourites(user.favourites.map((fav) => fav.imageUrl));
     }
 
@@ -89,7 +122,6 @@ const Home = () => {
     }
   };
 
-  // Add favourite property
   const addFavourite = async (item, id) => {
     const property = item;
     const userId = id;
@@ -148,12 +180,26 @@ const Home = () => {
             categoriesObject={categoriesObject}
           />
           <div style={{ padding: "25px 90px" }}>
-            <PropertiesBox
-              properties={properties}
-              favourites={favourites}
-              removeFavourite={removeFavourite}
-              addFavourite={addFavourite}
-            />
+            {selectedCategory && properties.length === 0 ? (
+              <div className="flex flex-col gap-3 h-[60vh] justify-center items-center">
+                <Heading
+                  center={true}
+                  title="No exact matches"
+                  subtitle="Try changing or removing some of your filters"
+                />
+                <BackButton
+                  text="Remove all filters"
+                  func={removeFilterCategory}
+                />
+              </div>
+            ) : (
+              <PropertiesBox
+                properties={properties}
+                favourites={favourites}
+                removeFavourite={removeFavourite}
+                addFavourite={addFavourite}
+              />
+            )}
           </div>
         </Box>
       ) : (
